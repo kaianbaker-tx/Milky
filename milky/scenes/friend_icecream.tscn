@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/friend.gd" id="1_friend"]
+[ext_resource type="Texture2D" path="res://assets/sprites/googly-eye.png" id="2_eye"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 28.0
+
+[node name="IceCream" type="Area2D" groups=["friend"]]
+script = ExtResource("1_friend")
+friend_name = "Ice Cream"
+
+[node name="Cone" type="Polygon2D" parent="."]
+color = Color(0.85, 0.65, 0.36, 1)
+polygon = PackedVector2Array(-18, 2, 18, 2, 0, 34)
+
+[node name="Scoop" type="Polygon2D" parent="."]
+color = Color(0.98, 0.76, 0.85, 1)
+polygon = PackedVector2Array(-20, 2, -16, -14, 0, -22, 16, -14, 20, 2)
+
+[node name="EyeLeft" type="Sprite2D" parent="."]
+position = Vector2(-8, -6)
+scale = Vector2(0.036, 0.036)
+texture = ExtResource("2_eye")
+
+[node name="EyeRight" type="Sprite2D" parent="."]
+position = Vector2(8, -6)
+scale = Vector2(0.036, 0.036)
+texture = ExtResource("2_eye")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_body")

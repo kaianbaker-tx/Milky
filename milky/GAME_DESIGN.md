@@ -40,9 +40,11 @@ We build one piece at a time. Each piece has to actually work before we start
 the next one.
 
 - [x] 1. A fridge shelf, and Milky standing on it
-- [x] 2. Milky runs and jumps
-- [ ] 3. Milky looks like a milk box (googly eyes!)
-- [ ] 3b. Fill the fridge — strawberry boxes, sodas, cereal boxes
+- [x] 2. Milky runs and jumps (arrow keys + space)
+- [x] 3. Milky looks like a blue milk carton with googly eyes
+- [x] 3b. Camera follows Milky around
+- [ ] 4. Fill the fridge — strawberry boxes, sodas, cereal boxes
+- [ ] 5. Platforms to jump between (right now it's one long shelf)
 - [ ] 4. One friend in the level you can walk into and pick up
 - [ ] 5. Picking a friend up switches who you play as
 - [ ] 6. Hats
