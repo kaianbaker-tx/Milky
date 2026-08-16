@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/googly-eye.png" id="1_eye"]
+
+[node name="LookPopsicle" type="Node2D"]
+
+[node name="Stick" type="Polygon2D" parent="."]
+color = Color(0.83, 0.68, 0.45, 1)
+polygon = PackedVector2Array(-8, 20, 8, 20, 8, 48, -8, 48)
+
+[node name="Body" type="Polygon2D" parent="."]
+color = Color(0.4, 0.78, 0.86, 1)
+polygon = PackedVector2Array(-24, -44, -17, -52, 17, -52, 24, -44, 24, 20, -24, 20)
+
+[node name="EyeLeft" type="Sprite2D" parent="."]
+position = Vector2(-10, -26)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_eye")
+
+[node name="EyeRight" type="Sprite2D" parent="."]
+position = Vector2(10, -26)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_eye")

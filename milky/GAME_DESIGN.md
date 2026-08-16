@@ -43,9 +43,21 @@ the next one.
 - [x] 2. Milky runs and jumps (arrow keys + space)
 - [x] 3. Milky looks like a blue milk carton with googly eyes
 - [x] 3b. Camera follows Milky around
-- [ ] 4. Fill the fridge — strawberry boxes, sodas, cereal boxes
-- [ ] 5. Platforms to jump between (right now it's one long shelf)
-- [ ] 4. One friend in the level you can walk into and pick up
-- [ ] 5. Picking a friend up switches who you play as
-- [ ] 6. Hats
-- [ ] 7. Level 2 + the level-select screen with the lock
+- [x] 4. Platforms made of fridge stuff — butter, cereal box, soda can,
+      egg carton, pizza box, jam jar, cheese block
+- [x] 5. Four friends hidden in the level you can walk into and pick up
+      (watermelon, macaroon, ice cream, popsicle) + a "Friends found" counter
+- [x] 6. **The Food Locker** — press L to open it and switch between any
+      friend you've found. Finding a friend puts them in the locker.
+- [ ] 7. The other 6 friends
+- [ ] 8. Hats
+- [ ] 9. Level 2 + the level-select screen with the lock
+
+## How to add a new friend (it's 3 steps now)
+
+1. Copy one of the `scenes/looks/look_*.tscn` files and change the shapes.
+2. Add one line to the `LOOKS` list in `scripts/locker.gd`.
+3. Copy one of the `scenes/friend_*.tscn` files, point it at the new look,
+   and change `friend_name`.
+
+Then drop it in the level. The counter and the locker update themselves.

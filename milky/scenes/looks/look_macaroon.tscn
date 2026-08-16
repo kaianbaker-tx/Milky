@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/googly-eye.png" id="1_eye"]
+
+[node name="LookMacaroon" type="Node2D"]
+
+[node name="ShellTop" type="Polygon2D" parent="."]
+color = Color(0.96, 0.72, 0.78, 1)
+polygon = PackedVector2Array(-34, -18, 34, -18, 40, 4, -40, 4)
+
+[node name="Filling" type="Polygon2D" parent="."]
+color = Color(0.99, 0.93, 0.78, 1)
+polygon = PackedVector2Array(-38, 4, 38, 4, 38, 26, -38, 26)
+
+[node name="ShellBottom" type="Polygon2D" parent="."]
+color = Color(0.96, 0.72, 0.78, 1)
+polygon = PackedVector2Array(-40, 26, 40, 26, 34, 48, -34, 48)
+
+[node name="EyeLeft" type="Sprite2D" parent="."]
+position = Vector2(-13, -6)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_eye")
+
+[node name="EyeRight" type="Sprite2D" parent="."]
+position = Vector2(13, -6)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_eye")

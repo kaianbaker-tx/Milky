@@ -5,6 +5,8 @@ Assets used in this game, and where they came from.
 ## Art
 
 - Kenney Game Assets All-in-1 — <https://kenney.nl> — CC0 (no attribution required)
+  - `assets/sprites/googly-eye.png` — from the "Googly Eyes" pack, used for
+    Milky's eyes and every refrigerator friend's eyes
 
 ## Audio
 

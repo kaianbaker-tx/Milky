@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/friend.gd" id="1_friend"]
-[ext_resource type="Texture2D" path="res://assets/sprites/googly-eye.png" id="2_eye"]
+[ext_resource type="PackedScene" path="res://scenes/looks/look_macaroon.tscn" id="2_look"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_body"]
 radius = 28.0
@@ -10,27 +10,8 @@ radius = 28.0
 script = ExtResource("1_friend")
 friend_name = "Macaroon"
 
-[node name="ShellTop" type="Polygon2D" parent="."]
-color = Color(0.96, 0.72, 0.78, 1)
-polygon = PackedVector2Array(-24, -18, 24, -18, 26, -6, -26, -6)
-
-[node name="Filling" type="Polygon2D" parent="."]
-color = Color(0.99, 0.93, 0.78, 1)
-polygon = PackedVector2Array(-24, -6, 24, -6, 24, 4, -24, 4)
-
-[node name="ShellBottom" type="Polygon2D" parent="."]
-color = Color(0.96, 0.72, 0.78, 1)
-polygon = PackedVector2Array(-26, 4, 26, 4, 24, 18, -24, 18)
-
-[node name="EyeLeft" type="Sprite2D" parent="."]
-position = Vector2(-9, -12)
-scale = Vector2(0.032, 0.032)
-texture = ExtResource("2_eye")
-
-[node name="EyeRight" type="Sprite2D" parent="."]
-position = Vector2(9, -12)
-scale = Vector2(0.032, 0.032)
-texture = ExtResource("2_eye")
+[node name="Look" parent="." instance=ExtResource("2_look")]
+scale = Vector2(0.6, 0.6)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_body")

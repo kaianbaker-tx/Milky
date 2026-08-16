@@ -38,6 +38,9 @@ func _on_body_entered(body):
 
 	found = true
 
+	# Put them in the food locker so you can play as them.
+	Locker.unlock(friend_name)
+
 	# Tell the counter at the top of the screen.
 	get_tree().call_group("hud", "friend_found", friend_name)
 
