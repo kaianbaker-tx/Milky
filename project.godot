@@ -1,0 +1,13 @@
+; Engine configuration file.
+; Generated for Godot 4.7 — edit in the editor via Project > Project Settings.
+
+config_version=5
+
+[application]
+
+config/name="Milky"
+config/features=PackedStringArray("4.7", "Forward Plus")
+
+[rendering]
+
+renderer/rendering_method="forward_plus"
