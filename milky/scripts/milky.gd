@@ -58,3 +58,9 @@ func _physics_process(delta):
 
 	# Now actually move, using everything we decided above.
 	move_and_slide()
+
+	# Swing the hands and feet to match what we just did.
+	if $Look.get_child_count() > 0:
+		var look = $Look.get_child(0)
+		if look.has_method("animate"):
+			look.animate(velocity, is_on_floor(), delta)
