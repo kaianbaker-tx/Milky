@@ -49,9 +49,13 @@ the next one.
       (watermelon, macaroon, ice cream, popsicle) + a "Friends found" counter
 - [x] 6. **The Food Locker** — press L to open it and switch between any
       friend you've found. Finding a friend puts them in the locker.
-- [ ] 7. The other 6 friends
-- [ ] 8. Hats
-- [ ] 9. Level 2 + the level-select screen with the lock
+- [x] 7. Hands, feet, faces and shading on everybody — limbs swing when you
+      walk, tuck up when you jump, and you turn to face the way you go
+- [x] 8. Fridge platforms decorated (cereal label, soda tab, egg bumps,
+      pizza vents, cheese holes, jam jar lid)
+- [ ] 9. The other 6 friends
+- [ ] 10. Hats — sunglasses, leaf hat, backwards blue cap, "SWEET TREAT"
+- [ ] 11. Level 2 + the level-select screen with the lock
 
 ## How to add a new friend (it's 3 steps now)
 
