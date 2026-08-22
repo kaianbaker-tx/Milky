@@ -1,38 +1,67 @@
 extends Node2D
 
 # ============================================================
-#	  YOUR LEVEL
+#    YOUR LEVELS
 #
-#	  Every letter below is one square of the world.
-#	  Change the letters, press play, and your level changes.
+#    Every letter below is one square of the world.
+#    Change the letters, press play, and your level changes.
 #
-#		 .	sky (nothing)			  C		 a coin
-#		 G	grass ground				M	  a mushroom baddie
-#		 D	dirt						T	  a tree
-#		 B	a wooden box				b	  a bush
-#		 ?	a question box			S		where the cat starts
-#		 F	the finish flag
+#       .  sky (nothing)             C    a coin
+#       G  grass ground             M    a mushroom baddie
+#       D  dirt                     T    a tree
+#       B  a wooden box             b    a bush
+#       ?  a question box         S    where the cat starts
+#       F  a checkpoint flag         W    the sandwich (finish!)
 #
-#	  Rows have to stay in order, but they can be any length.
-#	  Try digging a pit, or building a tower of B's.
+#    Rows have to stay in order, but they can be any length.
+#    Try digging a pit, or building a tower of B's.
 # ============================================================
 
-const LEVEL = [
+const LEVEL_ONE = [
 	"................................................................................................................",
 	"................................................................................................................",
 	"................................................................................................................",
 	"................................................................................................................",
 	"................................................................................................................",
-	"................................................................................................................",
-	".................................................CCCCC.........................CC...............................",
-	".................................................BB?BB..........CCC...........GG................................",
-	".................B?B...........................G................GGG..B?B.....GDDG...............................",
-	"................CCC.........CCC....?..........GD................DDD.........GDDDDG....C.C.C.C...................",
-	".............................................GDD..........BB.BB............GDDDDDDG......................F......",
-	"...S....b....T.......M.....GGGGG.M.........GGDDD..M....M...........M......GDDDDDDDDG....M...M...T..b...GGGGGG.T.",
-	"GGGGGGGGGGGGGGGGGGGGGGGG...GGGGGGGGGGGGG...GGGGGGGGGGGGGGG...GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGDDDDDDGGG",
+	"...............................................................................CC...............................",
+	".................................................CCCCC..........................................................",
+	"...............................................G.BB?BB..........CCC............GG...............................",
+	".................B?B..........................GD................GGG..B?B......GDDG..............................",
+	"................CCC.........CCC....?.........GDD................DDD..........GDDDDG.....C.C.C.C.................",
+	"............................................GDDD..........BB.BB.............GDDDDDDG.....................W......",
+	"...S....b....T.......M.....GGGGGF.M........GDDDD..M....M............M....F.GDDDDDDDDG....M...M...T..b..GGGGGG.T.",
+	"GGGGGGGGGGGGGGGGGGGGGGGG...GGGGGGGGGGGGG...GGGGGGGGGGGGGGG...GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
 	"DDDDDDDDDDDDDDDDDDDDDDDD...DDDDDDDDDDDDD...DDDDDDDDDDDDDDD...DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 ]
+
+const LEVEL_TWO = [
+	"..............................................................................................................",
+	"..............................................................................................................",
+	"..............................................................................................................",
+	"..............................................................................................................",
+	"..............................................................................................................",
+	".............................................................CC.........................CCC...................",
+	".............................................................BB.........................GGG...................",
+	"......................................CCMC.........................................CCC..DDD...................",
+	"......................B?B...........GGGGGGG...............BB.......................GGG........................",
+	"..........CCC......................GDDDDDDDG......................B?B.........CCC..DDD........................",
+	"................BB....CCC.........GDDDDDDDDDG...BB.....BB...............BB....GGG......................W......",
+	"...S...b.....M......F......M..M..GDDDDDDDDDDDG.......F...........M..M.........DDD............M..M.T..GGGGGG.b.",
+	"GGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+	"DDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+]
+
+# Every level in the game, in the order you play them.
+# Copy a whole level, paste it on the end, and you have a level 3.
+const ALL_LEVELS = [LEVEL_ONE, LEVEL_TWO]
+
+
+# Which level we're on right now. 0 means the first one.
+# It's "static" so that it remembers, even when the level restarts.
+static var level_number := 0
+
+# The level being played right now, copied out of ALL_LEVELS.
+var level = []
 
 
 # Every square in the picture file is 18 pixels across.
@@ -52,7 +81,7 @@ const BUSH = 124
 # looking at its neighbours.
 #
 # The order inside each list is always:
-#	   [ on its own,	 left end,	  middle,	  right end ]
+#      [ on its own,     left end,    middle,     right end ]
 const GRASS_WITH_DIRT_BELOW = [20, 21, 22, 23]
 const GRASS_ON_ITS_OWN = [0, 1, 2, 3]
 const DIRT_WITH_MORE_BELOW = [120, 121, 122, 123]
@@ -65,13 +94,19 @@ const SOLID_LETTERS = ["G", "D", "B", "?"]
 # Boxes don't count — they already have their own line round them.
 const GROUND_LETTERS = ["G", "D"]
 
+# How long the "LEVEL DONE" sign stays up before the next level.
+const CHEER_TIME = 2.5
+
 var tiles_picture = preload("res://assets/sprites/pixel_tiles.png")
 var coin_scene = preload("res://scenes/coin.tscn")
 var mushroom_scene = preload("res://scenes/mushroom.tscn")
-var flag_scene = preload("res://scenes/flag.tscn")
+var checkpoint_scene = preload("res://scenes/checkpoint.tscn")
+var sandwich_scene = preload("res://scenes/sandwich.tscn")
 
 
 func _ready():
+	level = ALL_LEVELS[level_number]
+
 	draw_all_the_tiles()
 	build_the_invisible_walls()
 	place_all_the_things()
@@ -79,16 +114,17 @@ func _ready():
 
 	# Keep the score board up to date.
 	$Cat.coins_changed.connect(show_coins)
-	$Cat.won.connect(show_you_win)
+	$Cat.finished.connect(show_level_done)
+	show_coins(0)
 
 
 # ---- Reading the level ----
 
 # What letter is at this square?
 func letter_at(x, y):
-	if y < 0 or y >= LEVEL.size():
+	if y < 0 or y >= level.size():
 		return "."
-	var row = LEVEL[y]
+	var row = level[y]
 	if x < 0 or x >= row.length():
 		return "."
 	return row[x]
@@ -151,8 +187,8 @@ func which_ground_picture(x, y):
 
 
 func draw_all_the_tiles():
-	for y in LEVEL.size():
-		for x in LEVEL[y].length():
+	for y in level.size():
+		for x in level[y].length():
 			var letter = letter_at(x, y)
 			if letter == "G" or letter == "D":
 				draw_tile(x, y, which_ground_picture(x, y))
@@ -178,9 +214,9 @@ func build_the_invisible_walls():
 	var walls = StaticBody2D.new()
 	add_child(walls)
 
-	for y in LEVEL.size():
+	for y in level.size():
 		var x = 0
-		while x < LEVEL[y].length():
+		while x < level[y].length():
 			if is_solid(x, y):
 				var run_starts_at = x
 				while is_solid(x + 1, y):
@@ -202,18 +238,20 @@ func add_wall(walls, from_x, to_x, y):
 	walls.add_child(shape)
 
 
-# ---- Coins, baddies, the flag, and the cat ----
+# ---- Coins, baddies, flags, the sandwich, and the cat ----
 
 func place_all_the_things():
-	for y in LEVEL.size():
-		for x in LEVEL[y].length():
+	for y in level.size():
+		for x in level[y].length():
 			var letter = letter_at(x, y)
 			if letter == "C":
 				add_thing(coin_scene, x, y)
 			elif letter == "M":
 				add_thing(mushroom_scene, x, y)
 			elif letter == "F":
-				add_thing(flag_scene, x, y)
+				add_thing(checkpoint_scene, x, y)
+			elif letter == "W":
+				add_thing(sandwich_scene, x, y)
 			elif letter == "S":
 				$Cat.position = middle_of(x, y)
 				$Cat.start_position = $Cat.position
@@ -231,23 +269,35 @@ func add_thing(scene, x, y):
 # and tells the cat how far it can fall before it's out of bounds.
 func set_up_the_camera():
 	var widest = 0
-	for row in LEVEL:
+	for row in level:
 		widest = maxi(widest, row.length())
 
 	var camera = $Cat/Camera2D
 	camera.limit_left = 0
 	camera.limit_top = 0
 	camera.limit_right = widest * TILE
-	camera.limit_bottom = LEVEL.size() * TILE
+	camera.limit_bottom = level.size() * TILE
 
-	$Cat.bottom_of_the_world = LEVEL.size() * TILE + 40
+	$Cat.bottom_of_the_world = level.size() * TILE + 40
 
 
 # ---- The score board ----
 
 func show_coins(total):
-	$HUD/CoinLabel.text = "Coins: %d" % total
+	$HUD/CoinLabel.text = "Level %d       Coins: %d" % [level_number + 1, total]
 
 
-func show_you_win():
-	$HUD/MessageLabel.text = "YOU WIN!"
+# The cat shouts when it eats the sandwich.
+func show_level_done():
+	var last_level = ALL_LEVELS.size() - 1
+
+	if level_number >= last_level:
+		$HUD/MessageLabel.text = "YOU FINISHED\nTHE WHOLE GAME!"
+		return
+
+	$HUD/MessageLabel.text = "LEVEL %d DONE!" % (level_number + 1)
+
+	# Let the cheering sound finish, then start the next level.
+	await get_tree().create_timer(CHEER_TIME).timeout
+	level_number += 1
+	get_tree().reload_current_scene()

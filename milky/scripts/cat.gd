@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 # ============================================================
-#	THE CAT
-#	Change any number below, press play, and feel what happens.
+#    THE CAT
+#    Change any number below, press play, and feel what happens.
 # ============================================================
 
 # How fast the cat runs. Bigger = faster.
@@ -36,15 +36,15 @@ const STOMP_BOUNCE = 0.7
 
 # ---- Things the cat remembers while the game runs ----
 
-signal coins_changed(total)	  # shouts the new number to the score board
-signal won					  # shouts once, when you touch the flag
+signal coins_changed(total)      # shouts the new number to the score board
+signal finished                  # shouts once, when you eat the sandwich
 
 var coins := 0
-var facing := 1				  # 1 = looking right, -1 = looking left
+var facing := 1                  # 1 = looking right, -1 = looking left
 var start_position := Vector2.ZERO
 var time_since_on_floor := 0.0
 var walk_timer := 0.0
-var has_won := false
+var has_finished := false
 
 # Fall below this line and you've fallen out of the world.
 # The level sets this for us when the game starts.
@@ -75,8 +75,8 @@ func _physics_process(delta):
 		get_tree().reload_current_scene()
 		return
 
-	# Once you've won, the cat takes a rest.
-	if has_won:
+	# Once you've eaten the sandwich, the cat takes a rest.
+	if has_finished:
 		velocity.x = move_toward(velocity.x, 0.0, SLOWING_DOWN * delta)
 		move_and_slide()
 		return
@@ -162,19 +162,27 @@ func stomp():
 	$StompSound.play()
 
 
+# A checkpoint flag calls this when you run past it.
+# From now on, getting hurt sends you back HERE instead of all
+# the way to the beginning of the level.
+func touch_checkpoint(where):
+	start_position = where
+	$CheckpointSound.play()
+
+
 # Called when a baddie gets you, or you fall off the world.
 func ouch():
-	if has_won:
+	if has_finished:
 		return
 	$HurtSound.play()
 	global_position = start_position
 	velocity = Vector2.ZERO
 
 
-# The flag calls this. You did it!
-func win():
-	if has_won:
+# The sandwich calls this. Level over — you did it!
+func finish_level():
+	if has_finished:
 		return
-	has_won = true
+	has_finished = true
 	$WinSound.play()
-	won.emit()
+	finished.emit()

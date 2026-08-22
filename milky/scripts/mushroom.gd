@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
 # ============================================================
-#	THE MUSHROOM BADDIE
-#	It walks back and forth. Land on its head and it gets flat.
-#	Touch it any other way and you go back to the start.
+#    THE MUSHROOM BADDIE
+#    It walks back and forth. Land on its head and it gets flat.
+#    Touch it any other way and you go back to the start.
 # ============================================================
 
 # How fast it shuffles along.

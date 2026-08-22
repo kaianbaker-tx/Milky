@@ -1,12 +1,14 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/milky.tscn" id="1_milky"]
+[ext_resource type="PackedScene" path="res://scenes/party_camera.tscn" id="99_camera"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="2_hud"]
 [ext_resource type="PackedScene" path="res://scenes/food_locker.tscn" id="3_locker"]
 [ext_resource type="PackedScene" path="res://scenes/friend_popup.tscn" id="4_popup"]
 [ext_resource type="PackedScene" path="res://scenes/star.tscn" id="5_star"]
 [ext_resource type="PackedScene" path="res://scenes/level_complete.tscn" id="6_complete"]
 [ext_resource type="PackedScene" path="res://scenes/friend_strawberry.tscn" id="7_strawberry"]
+[ext_resource type="PackedScene" path="res://scenes/friend_cheese.tscn" id="8_cheese"]
 
 [sub_resource type="RectangleShape2D" id="Rect_shelf"]
 size = Vector2(3000, 40)
@@ -254,10 +256,21 @@ shape = SubResource("Rect_tub")
 [node name="Strawberry" parent="." instance=ExtResource("7_strawberry")]
 position = Vector2(1300, 210)
 
+[node name="Cheese" parent="." instance=ExtResource("8_cheese")]
+position = Vector2(1930, 260)
+
 [node name="Star" parent="." instance=ExtResource("5_star")]
 position = Vector2(2560, 450)
 
-[node name="Milky" parent="." instance=ExtResource("1_milky")]
+[node name="Player1" parent="." instance=ExtResource("1_milky")]
+position = Vector2(200, 300)
+player_number = 1
+
+[node name="Player2" parent="." instance=ExtResource("1_milky")]
+position = Vector2(330, 300)
+player_number = 2
+
+[node name="PartyCamera" parent="." instance=ExtResource("99_camera")]
 position = Vector2(200, 300)
 
 [node name="FoodLocker" parent="." instance=ExtResource("3_locker")]

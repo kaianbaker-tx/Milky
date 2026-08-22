@@ -76,7 +76,16 @@ the next one.
 - [x] 12b. **Strawberry** built and hiding on the milk jug in Level 2.
       Nickname BERRY. Comes with the **Leaf Hat**.
 - [x] 12c. SWEET TREAT hat redone as a proper **backwards baseball cap**.
-- [ ] 13. More friends for Level 2 — blueberry, coconut, grape, mac & cheese
+- [x] 12d. **Cheese Block** friend built, standing on the orange juice in
+      Level 2. Nickname CHEESE. No hat designed for them yet.
+- [x] 12e. **2-PLAYER MODE.** Both players on one keyboard, same screen.
+      P1 = arrows + Space + R. P2 = A/D + W + Q.
+      One shared camera sits between them and zooms out when they split up.
+      Found friends and hats are shared, but each player picks their OWN
+      character and hat (PLAYER 1 / PLAYER 2 buttons in the locker).
+      Players are solid to each other — you can stand on your friend's head.
+- [ ] 13. More friends — blueberry, coconut, grape, mac & cheese
+- [ ] 13b. A hat for the Cheese Block
 - [ ] 14. The level-select screen with the lock on Level 2
 
 ## How to add a new friend (it's 3 steps now)
