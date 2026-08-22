@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[node name="HatPopsicleStick" type="Node2D"]
+
+[node name="Stick" type="Polygon2D" parent="."]
+color = Color(0.86, 0.72, 0.5, 1)
+polygon = PackedVector2Array(-28, -60, -24, -64, 24, -64, 28, -60, 28, -57, 24, -53, -24, -53, -28, -57)
+
+[node name="Grain" type="Polygon2D" parent="."]
+color = Color(0.75, 0.6, 0.39, 1)
+polygon = PackedVector2Array(-20, -60, 20, -60, 20, -58, -20, -58)
+
+[node name="Shade" type="Polygon2D" parent="."]
+color = Color(0.72, 0.58, 0.38, 1)
+polygon = PackedVector2Array(-24, -55, 24, -55, 24, -53, -24, -53)

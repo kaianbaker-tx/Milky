@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[node name="HatSweetTreat" type="Node2D"]
+
+[node name="Brim" type="Polygon2D" parent="."]
+color = Color(0.74, 0.27, 0.42, 1)
+polygon = PackedVector2Array(-36, -26, 36, -26, 38, -21, -38, -21)
+
+[node name="Crown" type="Polygon2D" parent="."]
+color = Color(0.98, 0.97, 0.95, 1)
+polygon = PackedVector2Array(-28, -44, 28, -44, 31, -26, -31, -26)
+
+[node name="CrownStripe" type="Polygon2D" parent="."]
+color = Color(0.96, 0.84, 0.88, 1)
+polygon = PackedVector2Array(-30, -31, 30, -31, 31, -26, -31, -26)
+
+[node name="Text" type="Label" parent="."]
+offset_left = -30.0
+offset_top = -44.0
+offset_right = 30.0
+offset_bottom = -30.0
+theme_override_colors/font_color = Color(0.74, 0.27, 0.42, 1)
+theme_override_font_sizes/font_size = 9
+text = "SWEET TREAT"
+horizontal_alignment = 1
+vertical_alignment = 1

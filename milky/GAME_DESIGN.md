@@ -54,7 +54,11 @@ the next one.
 - [x] 8. Fridge platforms decorated (cereal label, soda tab, egg bumps,
       pizza vents, cheese holes, jam jar lid)
 - [ ] 9. The other 6 friends
-- [ ] 10. Hats — sunglasses, leaf hat, backwards blue cap, "SWEET TREAT"
+- [x] 10. Hats! Watermelon has sunglasses, Macaroon has the SWEET TREAT cap,
+      Ice Cream has a cone hat, Popsicle has a stick hat. Each hat is its own
+      scene in `scenes/hats/` so a friend can swap hats later.
+- [ ] 10b. Hats for the friends not built yet — strawberry (leaf hat),
+      blueberry (backwards blue cap), coconut (coconut + straw)
 - [ ] 11. Level 2 + the level-select screen with the lock
 
 ## How to add a new friend (it's 3 steps now)
