@@ -121,6 +121,7 @@ func _physics_process(delta):
 	run(delta)
 
 	move_and_slide()
+	bump_whatever_is_above_us()
 	choose_picture(delta)
 
 	# Fell off the bottom? Go back to the start.
@@ -188,6 +189,18 @@ func run(delta):
 		# Build up to full speed instead of snapping to it.
 		velocity.x = move_toward(velocity.x, direction * SPEED, SPEEDING_UP * delta)
 		facing = 1 if direction > 0 else -1
+
+
+# After moving, Godot can tell us everything we bumped into.
+# If we whacked our head on something (the surface pushed us DOWN),
+# and that something is a ? box, we give it a knock.
+func bump_whatever_is_above_us():
+	for i in get_slide_collision_count():
+		var bump = get_slide_collision(i)
+		if bump.get_normal().y > 0.5:
+			var thing = bump.get_collider()
+			if thing != null and thing.has_method("bumped"):
+				thing.bumped(self)
 
 
 # Picks which of the four cat pictures to show right now.

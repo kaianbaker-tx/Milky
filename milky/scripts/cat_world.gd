@@ -10,8 +10,9 @@ extends Node2D
 #      G  grass ground         M  a mushroom baddie
 #      D  dirt                 T  a tree
 #      B  a wooden box         b  a bush
-#      ?  a question box       S  where the cat starts
+#      S  where the cat starts
 #      F  a checkpoint flag    W  the sandwich (finish!)
+#      ?  a box with a coin in   !  a box with a coffee in
 #      P  a cup of coffee (fire powers!)
 #      H  a dog house          X  the dog boss        A  the axe
 #
@@ -28,7 +29,7 @@ const LEVEL_ONE = [
 	"...............................................................................CC...............................",
 	".................................................CCCCC..........................................................",
 	"...............................................G.BB?BB..........CCC............GG...............................",
-	".................B?B..........................GD................GGG..B?B......GDDG..............................",
+	".................B!B..........................GD................GGG..B?B......GDDG..............................",
 	"................CCC.........CCC....?.........GDD................DDD..........GDDDDG.....C.C.C.C.................",
 	"............................................GDDD..........BB.BB.............GDDDDDDG.....................W......",
 	"...S....b....T.P.....M.....GGGGGF.M........GDDDD..M....M............M....F.GDDDDDDDDG.P..M...M...T..b..GGGGGG.T.",
@@ -45,7 +46,7 @@ const LEVEL_TWO = [
 	".............................................................CC.........................CCC...................",
 	".............................................................BB.........................GGG...................",
 	"......................................CCMC.........................................CCC..DDD...................",
-	"......................B?B...........GGGGGGG...............BB.......................GGG........................",
+	"......................B!B...........GGGGGGG...............BB.......................GGG........................",
 	"..........CCC......................GDDDDDDDG......................B?B.........CCC..DDD........................",
 	"................BB....CCC.........GDDDDDDDDDG...BB.....BB...............BB....GGG......................W......",
 	"...S...b..P..M......F......M..M..GDDDDDDDDDDDG.......F......P....M..M.........DDD............M..M.T..GGGGGG.H.",
@@ -100,7 +101,6 @@ const TILE = 18
 # "3rd along, 2nd row down". Open assets/sprites/pixel_tiles.png
 # and count if you want to swap any of these for something else.
 const WOODEN_BOX = 6
-const QUESTION_BOX = 10
 const TREE = 126
 const BUSH = 124
 
@@ -121,7 +121,7 @@ const DIRT_WITH_MORE_BELOW = [120, 121, 122, 123]
 const DIRT_AT_THE_BOTTOM = [140, 141, 142, 143]
 
 # Letters that the cat cannot walk through.
-const SOLID_LETTERS = ["G", "D", "B", "?"]
+const SOLID_LETTERS = ["G", "D", "B"]
 
 # Letters that count as ground when picking the pictures above.
 # Boxes don't count — they already have their own line round them.
@@ -138,6 +138,7 @@ var sandwich_scene = preload("res://scenes/sandwich.tscn")
 var coffee_scene = preload("res://scenes/coffee.tscn")
 var dog_scene = preload("res://scenes/dog.tscn")
 var axe_scene = preload("res://scenes/axe.tscn")
+var question_box_scene = preload("res://scenes/question_box.tscn")
 
 
 func _ready():
@@ -243,8 +244,6 @@ func draw_all_the_tiles():
 				draw_tile(x, y, which_ground_picture(x, y))
 			elif letter == "B":
 				draw_tile(x, y, WOODEN_BOX)
-			elif letter == "?":
-				draw_tile(x, y, QUESTION_BOX)
 			elif letter == "T":
 				draw_tile(x, y, TREE)
 			elif letter == "b":
@@ -309,6 +308,10 @@ func place_all_the_things():
 				add_thing(dog_scene, x, y)
 			elif letter == "A":
 				add_thing(axe_scene, x, y)
+			elif letter == "?":
+				add_thing(question_box_scene, x, y)
+			elif letter == "!":
+				add_thing(question_box_scene, x, y).gives = "coffee"
 			elif letter == "S":
 				$Cat.position = middle_of(x, y)
 				$Cat.start_position = $Cat.position
@@ -318,6 +321,7 @@ func add_thing(scene, x, y):
 	var thing = scene.instantiate()
 	thing.position = middle_of(x, y)
 	$Things.add_child(thing)
+	return thing
 
 
 # ---- The camera ----

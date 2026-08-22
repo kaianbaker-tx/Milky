@@ -24,7 +24,7 @@ Assets used in this game, and where they came from.
 - Kenney Game Assets All-in-1 — <https://kenney.nl> — CC0 (no attribution required)
   - `assets/audio/cat_jump.ogg`, `cat_coin.ogg`, `cat_stomp.ogg`,
     `cat_hurt.ogg`, `cat_win.ogg`, `cat_checkpoint.ogg`, `cat_powerup.ogg`,
-    `cat_fireball.ogg`, `dog_beaten.ogg`, `clang.ogg` — from the
+    `cat_fireball.ogg`, `dog_beaten.ogg`, `clang.ogg`, `box_bump.ogg` — from the
     "Retro Sounds 2" pack
   - `assets/audio/dog_bark.ogg` — from the "Retro Sounds 1" pack
 
