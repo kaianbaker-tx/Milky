@@ -7,6 +7,10 @@ extends Area2D
 # Which friend is this? Set in each friend's scene.
 @export var friend_name := "Friend"
 
+# The short nickname that pops up when you find them.
+# Watermelon -> MELON, Ice Cream -> CREAM, Macaroon -> LOON, Popsicle -> POP.
+@export var short_name := ""
+
 # Have we already been found? Stops double-counting.
 var found := false
 
@@ -43,6 +47,12 @@ func _on_body_entered(body):
 
 	# Tell the counter at the top of the screen.
 	get_tree().call_group("hud", "friend_found", friend_name)
+
+	# Pop the big "YOU GOT ___" message up on screen.
+	var nickname = short_name
+	if nickname == "":
+		nickname = friend_name
+	get_tree().call_group("popup", "show_friend", nickname)
 
 	# Disappear.
 	queue_free()

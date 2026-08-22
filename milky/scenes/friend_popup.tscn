@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/friend_popup.gd" id="1_popup"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_msg"]
+font_size = 52
+font_color = Color(1, 0.98, 0.9, 1)
+outline_size = 14
+outline_color = Color(0.17, 0.33, 0.52, 1)
+shadow_size = 8
+shadow_color = Color(0, 0, 0, 0.28)
+shadow_offset = Vector2(0, 5)
+
+[node name="FriendPopup" type="CanvasLayer"]
+layer = 3
+script = ExtResource("1_popup")
+
+[node name="Message" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -170.0
+offset_right = 400.0
+offset_bottom = -90.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "YOU GOT MELON!"
+label_settings = SubResource("LabelSettings_msg")
+horizontal_alignment = 1
+vertical_alignment = 1

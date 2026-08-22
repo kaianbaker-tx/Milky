@@ -9,6 +9,7 @@ radius = 28.0
 [node name="Macaroon" type="Area2D" groups=["friend"]]
 script = ExtResource("1_friend")
 friend_name = "Macaroon"
+short_name = "LOON"
 
 [node name="Look" parent="." instance=ExtResource("2_look")]
 scale = Vector2(0.6, 0.6)

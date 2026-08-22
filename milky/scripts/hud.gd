@@ -27,4 +27,8 @@ func friend_found(name_of_friend):
 
 
 func update_text():
-	text = "Friends found: %d / %d     [L] Food Locker     [R] Redo" % [found, total]
+	# A level with no friends in it shouldn't say "0 / 0".
+	if total == 0:
+		text = "[L] Food Locker     [R] Redo"
+	else:
+		text = "Friends found: %d / %d     [L] Food Locker     [R] Redo" % [found, total]

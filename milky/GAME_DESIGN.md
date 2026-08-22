@@ -64,7 +64,17 @@ the next one.
       blueberry (backwards blue cap), coconut (coconut + straw)
 - [x] 10d. **Redo button** — press R to go back to the start. You keep every
       friend and hat. If you fall off the world it catches you automatically.
-- [ ] 11. Level 2 + the level-select screen with the lock
+- [x] 10e. **Milky's Stall** at the end of the level — striped awning, sign,
+      and a counter you can stand on.
+- [x] 10f. **"YOU GOT ___!" pop-up** when you find a friend, using their
+      nickname: MELON, LOON, CREAM, POP.
+- [x] 11. **Gold star** at the end of each level. Touch it and a LEVEL
+      COMPLETE panel appears with NEXT LEVEL / KEEP EXPLORING THIS ONE.
+- [x] 12. **Level 2 exists** — the fridge door. Yogurt cup, ketchup, pickle
+      jar, milk jug, mustard, orange juice, butter tub. Has its own star, but
+      nothing after it yet, so its button says MORE COMING SOON.
+- [ ] 13. Friends to find in Level 2 (it's empty of friends right now)
+- [ ] 14. The level-select screen with the lock on Level 2
 
 ## How to add a new friend (it's 3 steps now)
 

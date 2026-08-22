@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c3dgeb37qa7ie"]
+[gd_scene load_steps=20 format=3 uid="uid://c3dgeb37qa7ie"]
 
 [ext_resource type="PackedScene" path="res://scenes/milky.tscn" id="1_milky"]
 [ext_resource type="PackedScene" path="res://scenes/friend_watermelon.tscn" id="2_watermelon"]
@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" path="res://scenes/friend_popsicle.tscn" id="5_popsicle"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="6_hud"]
 [ext_resource type="PackedScene" path="res://scenes/food_locker.tscn" id="7_locker"]
+[ext_resource type="PackedScene" path="res://scenes/friend_popup.tscn" id="8_popup"]
+[ext_resource type="PackedScene" path="res://scenes/star.tscn" id="9_star"]
+[ext_resource type="PackedScene" path="res://scenes/level_complete.tscn" id="10_complete"]
 
 [sub_resource type="RectangleShape2D" id="Rect_shelf"]
 size = Vector2(3000, 40)
@@ -28,6 +31,9 @@ size = Vector2(200, 40)
 
 [sub_resource type="RectangleShape2D" id="Rect_jam"]
 size = Vector2(90, 110)
+
+[sub_resource type="RectangleShape2D" id="Rect_stall"]
+size = Vector2(260, 24)
 
 [sub_resource type="RectangleShape2D" id="Rect_cheese"]
 size = Vector2(150, 60)
@@ -348,6 +354,114 @@ color = Color(0.87, 0.65, 0.21, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CheeseBlock"]
 shape = SubResource("Rect_cheese")
 
+[node name="Stall" type="StaticBody2D" parent="."]
+position = Vector2(2650, 452)
+
+[node name="LegLeft" type="ColorRect" parent="Stall"]
+offset_left = -120.0
+offset_top = 12.0
+offset_right = -104.0
+offset_bottom = 48.0
+color = Color(0.55, 0.4, 0.27, 1)
+
+[node name="LegRight" type="ColorRect" parent="Stall"]
+offset_left = 104.0
+offset_top = 12.0
+offset_right = 120.0
+offset_bottom = 48.0
+color = Color(0.55, 0.4, 0.27, 1)
+
+[node name="PostLeft" type="ColorRect" parent="Stall"]
+offset_left = -122.0
+offset_top = -102.0
+offset_right = -108.0
+offset_bottom = -12.0
+color = Color(0.62, 0.46, 0.31, 1)
+
+[node name="PostRight" type="ColorRect" parent="Stall"]
+offset_left = 108.0
+offset_top = -102.0
+offset_right = 122.0
+offset_bottom = -12.0
+color = Color(0.62, 0.46, 0.31, 1)
+
+[node name="Awning" type="ColorRect" parent="Stall"]
+offset_left = -148.0
+offset_top = -134.0
+offset_right = 148.0
+offset_bottom = -102.0
+color = Color(0.97, 0.96, 0.93, 1)
+
+[node name="Stripe1" type="ColorRect" parent="Stall"]
+offset_left = -148.0
+offset_top = -134.0
+offset_right = -111.0
+offset_bottom = -102.0
+color = Color(0.87, 0.27, 0.31, 1)
+
+[node name="Stripe2" type="ColorRect" parent="Stall"]
+offset_left = -74.0
+offset_top = -134.0
+offset_right = -37.0
+offset_bottom = -102.0
+color = Color(0.87, 0.27, 0.31, 1)
+
+[node name="Stripe3" type="ColorRect" parent="Stall"]
+offset_left = 0.0
+offset_top = -134.0
+offset_right = 37.0
+offset_bottom = -102.0
+color = Color(0.87, 0.27, 0.31, 1)
+
+[node name="Stripe4" type="ColorRect" parent="Stall"]
+offset_left = 74.0
+offset_top = -134.0
+offset_right = 111.0
+offset_bottom = -102.0
+color = Color(0.87, 0.27, 0.31, 1)
+
+[node name="AwningEdge" type="ColorRect" parent="Stall"]
+offset_left = -148.0
+offset_top = -106.0
+offset_right = 148.0
+offset_bottom = -102.0
+color = Color(0.66, 0.19, 0.23, 1)
+
+[node name="Sign" type="ColorRect" parent="Stall"]
+offset_left = -92.0
+offset_top = -88.0
+offset_right = 92.0
+offset_bottom = -52.0
+color = Color(0.25, 0.36, 0.5, 1)
+
+[node name="SignText" type="Label" parent="Stall"]
+offset_left = -92.0
+offset_top = -88.0
+offset_right = 92.0
+offset_bottom = -52.0
+theme_override_colors/font_color = Color(1, 0.95, 0.75, 1)
+theme_override_font_sizes/font_size = 22
+text = "MILKY'S STALL"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Counter" type="ColorRect" parent="Stall"]
+offset_left = -130.0
+offset_top = -12.0
+offset_right = 130.0
+offset_bottom = 12.0
+color = Color(0.72, 0.54, 0.36, 1)
+
+[node name="CounterEdge" type="ColorRect" parent="Stall"]
+offset_left = -130.0
+offset_top = -12.0
+offset_right = 130.0
+offset_bottom = -5.0
+color = Color(0.84, 0.66, 0.45, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Stall"]
+shape = SubResource("Rect_stall")
+
 [node name="Watermelon" parent="." instance=ExtResource("2_watermelon")]
 position = Vector2(420, 400)
 
@@ -360,10 +474,18 @@ position = Vector2(1560, 220)
 [node name="Popsicle" parent="." instance=ExtResource("5_popsicle")]
 position = Vector2(2246, 384)
 
+[node name="Star" parent="." instance=ExtResource("9_star")]
+position = Vector2(2650, 404)
+
 [node name="Milky" parent="." instance=ExtResource("1_milky")]
 position = Vector2(200, 300)
 
 [node name="FoodLocker" parent="." instance=ExtResource("7_locker")]
+
+[node name="FriendPopup" parent="." instance=ExtResource("8_popup")]
+
+[node name="LevelComplete" parent="." instance=ExtResource("10_complete")]
+next_level = "res://scenes/level2.tscn"
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
