@@ -55,9 +55,17 @@ func _someone_touched_me(who):
 		who.ouch()
 
 
+# A fireball hit us. Same as being jumped on, but nobody bounces.
+func hit_by_fireball():
+	if squashed:
+		return
+	get_squashed(null)
+
+
 func get_squashed(cat):
 	squashed = true
-	cat.stomp()
+	if cat != null:
+		cat.stomp()
 
 	# Go flat, and stop being touchable.
 	$Sprite.scale.y = 0.35

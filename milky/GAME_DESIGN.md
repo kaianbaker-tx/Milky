@@ -84,6 +84,9 @@ the next one.
       Found friends and hats are shared, but each player picks their OWN
       character and hat (PLAYER 1 / PLAYER 2 buttons in the locker).
       Players are solid to each other — you can stand on your friend's head.
+- [x] 12f. **Title screen** — "MILKY / and his Refrigerator Friends", with
+      PLAY GAME (one player) and MULTIPLAYER (two players) buttons. It's what
+      the game opens on now, and it resets your friends for a fresh game.
 - [ ] 13. More friends — blueberry, coconut, grape, mac & cheese
 - [ ] 13b. A hat for the Cheese Block
 - [ ] 14. The level-select screen with the lock on Level 2

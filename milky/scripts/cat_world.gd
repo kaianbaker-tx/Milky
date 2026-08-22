@@ -29,7 +29,7 @@ const LEVEL_ONE = [
 	".................B?B..........................GD................GGG..B?B......GDDG..............................",
 	"................CCC.........CCC....?.........GDD................DDD..........GDDDDG.....C.C.C.C.................",
 	"............................................GDDD..........BB.BB.............GDDDDDDG.....................W......",
-	"...S....b....T.......M.....GGGGGF.M........GDDDD..M....M............M....F.GDDDDDDDDG....M...M...T..b..GGGGGG.T.",
+	"...S....b....T.P.....M.....GGGGGF.M........GDDDD..M....M............M....F.GDDDDDDDDG.P..M...M...T..b..GGGGGG.T.",
 	"GGGGGGGGGGGGGGGGGGGGGGGG...GGGGGGGGGGGGG...GGGGGGGGGGGGGGG...GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
 	"DDDDDDDDDDDDDDDDDDDDDDDD...DDDDDDDDDDDDD...DDDDDDDDDDDDDDD...DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 ]
@@ -46,7 +46,7 @@ const LEVEL_TWO = [
 	"......................B?B...........GGGGGGG...............BB.......................GGG........................",
 	"..........CCC......................GDDDDDDDG......................B?B.........CCC..DDD........................",
 	"................BB....CCC.........GDDDDDDDDDG...BB.....BB...............BB....GGG......................W......",
-	"...S...b.....M......F......M..M..GDDDDDDDDDDDG.......F...........M..M.........DDD............M..M.T..GGGGGG.b.",
+	"...S...b..P..M......F......M..M..GDDDDDDDDDDDG.......F......P....M..M.........DDD............M..M.T..GGGGGG.b.",
 	"GGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
 	"DDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 ]
@@ -102,6 +102,7 @@ var coin_scene = preload("res://scenes/coin.tscn")
 var mushroom_scene = preload("res://scenes/mushroom.tscn")
 var checkpoint_scene = preload("res://scenes/checkpoint.tscn")
 var sandwich_scene = preload("res://scenes/sandwich.tscn")
+var coffee_scene = preload("res://scenes/coffee.tscn")
 
 
 func _ready():
@@ -252,6 +253,8 @@ func place_all_the_things():
 				add_thing(checkpoint_scene, x, y)
 			elif letter == "W":
 				add_thing(sandwich_scene, x, y)
+			elif letter == "P":
+				add_thing(coffee_scene, x, y)
 			elif letter == "S":
 				$Cat.position = middle_of(x, y)
 				$Cat.start_position = $Cat.position

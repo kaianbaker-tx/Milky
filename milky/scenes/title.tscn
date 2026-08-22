@@ -63,19 +63,19 @@ grow_vertical = 0
 color = Color(0.86, 0.93, 0.96, 1)
 
 [node name="LookMilky" parent="." instance=ExtResource("2_milky")]
-position = Vector2(190, 472)
+position = Vector2(115, 472)
 
 [node name="LookWatermelon" parent="." instance=ExtResource("3_melon")]
-position = Vector2(370, 472)
+position = Vector2(345, 472)
 
 [node name="LookStrawberry" parent="." instance=ExtResource("4_berry")]
-position = Vector2(790, 472)
+position = Vector2(576, 472)
 
 [node name="LookIceCream" parent="." instance=ExtResource("5_cream")]
-position = Vector2(950, 472)
+position = Vector2(807, 472)
 
 [node name="LookCheese" parent="." instance=ExtResource("6_cheese")]
-position = Vector2(1110, 472)
+position = Vector2(1037, 472)
 
 [node name="TitleText" type="Label" parent="."]
 anchor_right = 1.0

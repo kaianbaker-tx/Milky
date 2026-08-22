@@ -33,6 +33,18 @@ const COYOTE_TIME = 0.1
 # How big the bounce is when you land on a baddie's head.
 const STOMP_BOUNCE = 0.7
 
+# ---- Fire powers (you get these from the cup of coffee) ----
+
+# Tap the space bar TWICE quickly to shoot. This is how quick
+# "quickly" has to be.
+const DOUBLE_TAP_TIME = 0.35
+
+# You can't have more than this many fireballs flying at once.
+const MOST_FIREBALLS_AT_ONCE = 2
+
+# How long you flash and can't be hurt after losing your fire powers.
+const SAFE_TIME_AFTER_A_HIT = 1.5
+
 
 # ---- Things the cat remembers while the game runs ----
 
@@ -45,16 +57,32 @@ var start_position := Vector2.ZERO
 var time_since_on_floor := 0.0
 var walk_timer := 0.0
 var has_finished := false
+var has_fire := false          # true after you drink the coffee
+var last_jump_press := -99.0   # used to spot a double tap
+var clock := 0.0               # counts up forever, so we can time things
+var safe_until := -99.0        # nothing can hurt you until this time
 
 # Fall below this line and you've fallen out of the world.
 # The level sets this for us when the game starts.
 var bottom_of_the_world := 400.0
 
-# The four pictures of the cat.
-var picture_idle  = preload("res://assets/sprites/cat_idle.png")
-var picture_walk1 = preload("res://assets/sprites/cat_walk1.png")
-var picture_walk2 = preload("res://assets/sprites/cat_walk2.png")
-var picture_jump  = preload("res://assets/sprites/cat_jump.png")
+# The four pictures of the cat: standing, walking A, walking B, jumping.
+var normal_pictures = [
+	preload("res://assets/sprites/cat_idle.png"),
+	preload("res://assets/sprites/cat_walk1.png"),
+	preload("res://assets/sprites/cat_walk2.png"),
+	preload("res://assets/sprites/cat_jump.png"),
+]
+
+# The same four, but red with overalls, for when you have fire powers.
+var fire_pictures = [
+	preload("res://assets/sprites/firecat_idle.png"),
+	preload("res://assets/sprites/firecat_walk1.png"),
+	preload("res://assets/sprites/firecat_walk2.png"),
+	preload("res://assets/sprites/firecat_jump.png"),
+]
+
+var fireball_scene = preload("res://scenes/fireball.tscn")
 
 
 func _ready():
@@ -80,6 +108,8 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0.0, SLOWING_DOWN * delta)
 		move_and_slide()
 		return
+
+	clock += delta
 
 	fall(delta)
 	jump()
@@ -107,16 +137,38 @@ func fall(delta):
 
 
 func jump():
-	# You can jump if you're on the floor, or only just left it.
-	if Input.is_action_just_pressed("ui_accept") and time_since_on_floor < COYOTE_TIME:
-		velocity.y = JUMP_STRENGTH
-		# Use up the coyote time so you can't jump twice.
-		time_since_on_floor = COYOTE_TIME
-		$JumpSound.play()
+	if Input.is_action_just_pressed("ui_accept"):
+		# Two quick taps of the space bar means SHOOT, not jump.
+		# (You can't jump again in mid-air anyway, so that second
+		# tap was doing nothing before.)
+		var this_is_a_double_tap = clock - last_jump_press < DOUBLE_TAP_TIME
+		last_jump_press = clock
+
+		if this_is_a_double_tap and has_fire:
+			shoot_a_fireball()
+		elif time_since_on_floor < COYOTE_TIME:
+			# Standing on the floor, or only just stepped off it. Jump!
+			velocity.y = JUMP_STRENGTH
+			# Use up the coyote time so you can't jump twice.
+			time_since_on_floor = COYOTE_TIME
+			$JumpSound.play()
 
 	# Let go of the key while still rising? Cut the jump short.
 	if Input.is_action_just_released("ui_accept") and velocity.y < SHORT_JUMP:
 		velocity.y = SHORT_JUMP
+
+
+func shoot_a_fireball():
+	# Only two fireballs in the air at a time. Otherwise you could
+	# hold the button down and clear the whole level from the start.
+	if get_tree().get_nodes_in_group("fireballs").size() >= MOST_FIREBALLS_AT_ONCE:
+		return
+
+	var ball = fireball_scene.instantiate()
+	ball.position = position + Vector2(11 * facing, -1)
+	ball.direction = facing
+	get_parent().add_child.call_deferred(ball)
+	$FireballSound.play()
 
 
 func run(delta):
@@ -136,15 +188,24 @@ func run(delta):
 func choose_picture(delta):
 	$Body.flip_h = facing < 0
 
+	# Red cat in overalls if you have fire powers, orange cat if not.
+	var pictures = fire_pictures if has_fire else normal_pictures
+
 	if not is_on_floor():
-		$Body.texture = picture_jump
+		$Body.texture = pictures[3]
 	elif absf(velocity.x) > 5.0:
 		# Flip between the two walking pictures. Faster running,
 		# faster flipping.
 		walk_timer += delta * absf(velocity.x) * 0.05
-		$Body.texture = picture_walk1 if int(walk_timer) % 2 == 0 else picture_walk2
+		$Body.texture = pictures[1] if int(walk_timer) % 2 == 0 else pictures[2]
 	else:
-		$Body.texture = picture_idle
+		$Body.texture = pictures[0]
+
+	# Flash on and off while you're briefly safe after being hit.
+	if clock < safe_until:
+		$Body.modulate.a = 0.35 if fmod(clock, 0.16) < 0.08 else 1.0
+	else:
+		$Body.modulate.a = 1.0
 
 
 # ---- Things the rest of the world asks the cat to do ----
@@ -170,10 +231,29 @@ func touch_checkpoint(where):
 	$CheckpointSound.play()
 
 
+# The cup of coffee calls this. Fire powers!
+func drink_the_coffee():
+	has_fire = true
+	$PowerUpSound.play()
+
+
 # Called when a baddie gets you, or you fall off the world.
 func ouch():
 	if has_finished:
 		return
+
+	# Just been hit? Nothing can touch you for a moment.
+	if clock < safe_until:
+		return
+
+	# With fire powers you only LOSE the powers — you don't go back
+	# to the checkpoint. Same as Mario losing his fire flower.
+	if has_fire:
+		has_fire = false
+		safe_until = clock + SAFE_TIME_AFTER_A_HIT
+		$HurtSound.play()
+		return
+
 	$HurtSound.play()
 	global_position = start_position
 	velocity = Vector2.ZERO
