@@ -13,6 +13,9 @@ extends Node2D
 #      S  where the cat starts
 #      F  a checkpoint flag    W  the sandwich (finish!)
 #      ?  a box with a coin in   !  a box with a coffee in
+#      K  a brick you can smash (only when you're red)
+#      U  a fish — one extra life
+#      v  a pipe you go DOWN     n  the pipe you come back out of
 #      P  a cup of coffee (fire powers!)
 #      H  a dog house          X  the dog boss        A  the axe
 #
@@ -21,37 +24,37 @@ extends Node2D
 # ============================================================
 
 const LEVEL_ONE = [
-	"................................................................................................................",
-	"................................................................................................................",
-	"................................................................................................................",
-	"................................................................................................................",
-	"................................................................................................................",
-	"...............................................................................CC...............................",
-	".................................................CCCCC..........................................................",
-	"...............................................G.BB?BB..........CCC............GG...............................",
-	".................B!B..........................GD................GGG..B?B......GDDG..............................",
-	"................CCC.........CCC....?.........GDD................DDD..........GDDDDG.....C.C.C.C.................",
-	"............................................GDDD..........BB.BB.............GDDDDDDG.....................W......",
-	"...S....b....T.P.....M.....GGGGGF.M........GDDDD..M....M............M....F.GDDDDDDDDG.P..M...M...T..b..GGGGGG.T.",
-	"GGGGGGGGGGGGGGGGGGGGGGGG...GGGGGGGGGGGGG...GGGGGGGGGGGGGGG...GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
-	"DDDDDDDDDDDDDDDDDDDDDDDD...DDDDDDDDDDDDD...DDDDDDDDDDDDDDD...DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	"..........................................................................................................................................",
+	"..........................................................................................................................................",
+	"..........................................................................................................................................",
+	"..........................................................................................................................................",
+	"..........................................................................................................................................",
+	"...............................................................................CC.........................................................",
+	".................................................CCCCC................................................................BBBBBBBBBBBBBBBBBBB.",
+	"...............................................G.KK?KK..........CCC............GG.....................................B.................B.",
+	".................K!K..........................GD................GGG..K?K......GDDG....................................B.................B.",
+	"................CCC.........CCC....?.........GDD................DDD..........GDDDDG.....C.C.C.C.......................B...C.C.C.C.C.C...B.",
+	"............................................GDDD..........BB.BB.............GDDDDDDG..........v..........W............B...C.C.C.C.C.Cn..B.",
+	"...S....b....T.P.....M.....GGGGGF.M........GDDDD..M....M............M....F.GDDDDDDDDG.P..M...M...T..b..GGGGGG.T.......B...U.............B.",
+	"GGGGGGGGGGGGGGGGGGGGGGGG...GGGGGGGGGGGGG...GGGGGGGGGGGGGGG...GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG......BBBBBBBBBBBBBBBBBBB.",
+	"DDDDDDDDDDDDDDDDDDDDDDDD...DDDDDDDDDDDDD...DDDDDDDDDDDDDDD...DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD......BBBBBBBBBBBBBBBBBBB.",
 ]
 
 const LEVEL_TWO = [
-	"..............................................................................................................",
-	"..............................................................................................................",
-	"..............................................................................................................",
-	"..............................................................................................................",
-	"..............................................................................................................",
-	".............................................................CC.........................CCC...................",
-	".............................................................BB.........................GGG...................",
-	"......................................CCMC.........................................CCC..DDD...................",
-	"......................B!B...........GGGGGGG...............BB.......................GGG........................",
-	"..........CCC......................GDDDDDDDG......................B?B.........CCC..DDD........................",
-	"................BB....CCC.........GDDDDDDDDDG...BB.....BB...............BB....GGG......................W......",
-	"...S...b..P..M......F......M..M..GDDDDDDDDDDDG.......F......P....M..M.........DDD............M..M.T..GGGGGG.H.",
-	"GGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
-	"DDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	"........................................................................................................................................",
+	"........................................................................................................................................",
+	"........................................................................................................................................",
+	"........................................................................................................................................",
+	"........................................................................................................................................",
+	".............................................................CC.........................CCC.............................................",
+	".............................................................BB.........................GGG.........................BBBBBBBBBBBBBBBBBBB.",
+	"......................................CCMC.........................................CCC..DDD.........................B.................B.",
+	"......................K!K...........GGGGGGG...............BB.......................GGG..............................B.................B.",
+	"..........CCC......................GDDDDDDDG......................K?K.........CCC..DDD..............................B...C.C.C.C.C.C...B.",
+	"................BB....CCCv........GDDDDDDDDDG...BB.....BB...............BB....GGG......................W............B...C.C.C.C.C.Cn..B.",
+	"...S...b..P..M......F......M..M..GDDDDDDDDDDDG.......F......P....M..M.........DDD............M..M.T..GGGGGG.H.......B...U.............B.",
+	"GGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG......BBBBBBBBBBBBBBBBBBB.",
+	"DDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD......BBBBBBBBBBBBBBBBBBB.",
 ]
 
 # The last level: inside the dog house, with the dog and the axe.
@@ -130,6 +133,21 @@ const GROUND_LETTERS = ["G", "D"]
 # How long the "LEVEL DONE" sign stays up before the next level.
 const CHEER_TIME = 2.5
 
+# How many seconds you get to finish a level. Run out and you lose
+# a life. This is the clock ticking down at the top of the screen.
+const TIME_LIMIT = 300.0
+
+# How many lives you start the whole game with.
+const LIVES_TO_START_WITH = 3
+
+
+# Lives are "static" like the level number, so they carry over from
+# one level to the next instead of resetting every time.
+static var lives := LIVES_TO_START_WITH
+
+var time_left := TIME_LIMIT
+var game_is_over := false
+
 var tiles_picture = preload("res://assets/sprites/pixel_tiles.png")
 var coin_scene = preload("res://scenes/coin.tscn")
 var mushroom_scene = preload("res://scenes/mushroom.tscn")
@@ -139,6 +157,9 @@ var coffee_scene = preload("res://scenes/coffee.tscn")
 var dog_scene = preload("res://scenes/dog.tscn")
 var axe_scene = preload("res://scenes/axe.tscn")
 var question_box_scene = preload("res://scenes/question_box.tscn")
+var brick_scene = preload("res://scenes/brick.tscn")
+var pipe_scene = preload("res://scenes/pipe.tscn")
+var fish_scene = preload("res://scenes/fish.tscn")
 
 
 func _ready():
@@ -154,6 +175,9 @@ func _ready():
 	$Cat.coins_changed.connect(show_coins)
 	$Cat.finished.connect(show_level_done)
 	$Cat.shout.connect(show_a_message)
+	$Cat.died.connect(lose_a_life)
+	$Cat.got_a_life.connect(gain_a_life)
+	time_left = TIME_LIMIT
 	show_coins(0)
 
 
@@ -291,6 +315,10 @@ func add_wall(walls, from_x, to_x, y):
 # ---- Coins, baddies, flags, the sandwich, and the cat ----
 
 func place_all_the_things():
+	# Pipes have to be matched up in pairs once they all exist,
+	# so we keep a list of them as we go.
+	var pipes = []
+
 	for y in level.size():
 		for x in level[y].length():
 			var letter = letter_at(x, y)
@@ -312,9 +340,22 @@ func place_all_the_things():
 				add_thing(question_box_scene, x, y)
 			elif letter == "!":
 				add_thing(question_box_scene, x, y).gives = "coffee"
+			elif letter == "K":
+				add_thing(brick_scene, x, y)
+			elif letter == "U":
+				add_thing(fish_scene, x, y)
+			elif letter == "v" or letter == "n":
+				pipes.append(add_thing(pipe_scene, x, y))
 			elif letter == "S":
 				$Cat.position = middle_of(x, y)
 				$Cat.start_position = $Cat.position
+
+
+	# Now join the two pipes together, so each one knows where
+	# it sends you.
+	if pipes.size() >= 2:
+		pipes[0].goes_to = pipes[1].where_you_come_out()
+		pipes[1].goes_to = pipes[0].where_you_come_out()
 
 
 func add_thing(scene, x, y):
@@ -342,6 +383,50 @@ func set_up_the_camera():
 	$Cat.bottom_of_the_world = level.size() * TILE + 40
 
 
+# ---- The clock ----
+
+# Runs every single frame. Counts the clock down, and keeps the
+# numbers at the top of the screen up to date.
+func _process(delta):
+	if game_is_over or $Cat.has_finished:
+		update_the_score_board()
+		return
+
+	time_left -= delta
+	if time_left <= 0.0:
+		time_left = TIME_LIMIT
+		# Out of time. This one gets you even if you have fire powers.
+		$Cat.ouch(true)
+
+	update_the_score_board()
+
+
+# ---- Lives ----
+
+func lose_a_life():
+	lives -= 1
+	time_left = TIME_LIMIT
+	if lives <= 0:
+		game_over()
+
+
+func gain_a_life():
+	lives += 1
+
+
+func game_over():
+	game_is_over = true
+	$Cat.freeze()
+	$HUD/MessageLabel.text = "GAME OVER"
+
+	await get_tree().create_timer(3.5).timeout
+
+	# Start the whole game again, right from the beginning.
+	lives = LIVES_TO_START_WITH
+	level_number = 0
+	get_tree().reload_current_scene()
+
+
 # ---- The score board ----
 
 # Puts a message on the screen for a few seconds, then clears it.
@@ -352,8 +437,13 @@ func show_a_message(words):
 		$HUD/MessageLabel.text = ""
 
 
-func show_coins(total):
-	$HUD/CoinLabel.text = "Level %d       Coins: %d" % [level_number + 1, total]
+func show_coins(_total):
+	update_the_score_board()
+
+
+func update_the_score_board():
+	$HUD/CoinLabel.text = "Level %d   Coins %d   Lives %d   Time %d" % [
+		level_number + 1, $Cat.coins, maxi(lives, 0), maxi(ceili(time_left), 0)]
 
 
 # The cat shouts when it eats the sandwich.

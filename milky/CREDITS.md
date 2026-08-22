@@ -16,6 +16,9 @@ Assets used in this game, and where they came from.
   - the fire cat — `firecat_idle.png`, `firecat_walk1.png`, `firecat_walk2.png`,
     `firecat_jump.png`
   - `coffee.png` (the paw-print coffee cup), `fireball.png`, `sandwich.png`
+  - `brick.png` and `brick_chunk.png` (the smashable bricks)
+  - `pipe.png` (the pipe down to the secret room)
+  - `fish.png` (one extra life)
   - the dog boss — `dog_idle.png`, `dog_walk1.png`, `dog_walk2.png`,
     `dog_beaten.png`, plus `axe.png` and `doghouse.png`
 
@@ -24,7 +27,7 @@ Assets used in this game, and where they came from.
 - Kenney Game Assets All-in-1 — <https://kenney.nl> — CC0 (no attribution required)
   - `assets/audio/cat_jump.ogg`, `cat_coin.ogg`, `cat_stomp.ogg`,
     `cat_hurt.ogg`, `cat_win.ogg`, `cat_checkpoint.ogg`, `cat_powerup.ogg`,
-    `cat_fireball.ogg`, `dog_beaten.ogg`, `clang.ogg`, `box_bump.ogg` — from the
+    `cat_fireball.ogg`, `dog_beaten.ogg`, `clang.ogg`, `box_bump.ogg`, `pipe.ogg`, `smash.ogg` — from the
     "Retro Sounds 2" pack
   - `assets/audio/dog_bark.ogg` — from the "Retro Sounds 1" pack
 

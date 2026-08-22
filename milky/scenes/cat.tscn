@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/cat.gd" id="1_cat"]
 [ext_resource type="Texture2D" path="res://assets/sprites/cat_idle.png" id="2_idle"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" path="res://assets/audio/cat_checkpoint.ogg" id="8_check"]
 [ext_resource type="AudioStream" path="res://assets/audio/cat_powerup.ogg" id="9_power"]
 [ext_resource type="AudioStream" path="res://assets/audio/cat_fireball.ogg" id="10_fire"]
+[ext_resource type="AudioStream" path="res://assets/audio/pipe.ogg" id="11_pipe"]
 
 [sub_resource type="RectangleShape2D" id="Shape_cat"]
 size = Vector2(12, 18)
@@ -61,3 +62,7 @@ volume_db = -4.0
 [node name="FireballSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_fire")
 volume_db = -10.0
+
+[node name="PipeSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_pipe")
+volume_db = -6.0

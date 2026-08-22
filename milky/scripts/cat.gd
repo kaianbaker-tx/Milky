@@ -5,8 +5,15 @@ extends CharacterBody2D
 #    Change any number below, press play, and feel what happens.
 # ============================================================
 
-# How fast the cat runs. Bigger = faster.
+# How fast the cat walks. Bigger = faster.
 const SPEED = 135.0
+
+# How fast it goes when you HOLD SHIFT. This is the run button.
+const RUN_SPEED = 205.0
+
+# Running also makes you jump further, because you're going faster,
+# and a little bit higher too. This is how much higher.
+const RUNNING_JUMP_BOOST = 0.16
 
 # How quickly it gets up to full speed, and how quickly it stops.
 # Small numbers feel slippery, like ice.
@@ -50,6 +57,8 @@ const SAFE_TIME_AFTER_A_HIT = 1.5
 
 signal coins_changed(total)      # shouts the new number to the score board
 signal shout(words)              # asks for a message on screen
+signal died                      # shouts when you lose a life
+signal got_a_life                # shouts when you eat a fish
 signal finished                  # shouts once, when you eat the sandwich
 
 var coins := 0
@@ -94,12 +103,18 @@ func _ready():
 	# Remember the starting spot.
 	start_position = global_position
 
-	# Make R the restart key.
-	if not InputMap.has_action("restart"):
-		InputMap.add_action("restart")
-		var key := InputEventKey.new()
-		key.keycode = KEY_R
-		InputMap.action_add_event("restart", key)
+	make_a_key("restart", KEY_R)      # R starts the level again
+	make_a_key("run", KEY_SHIFT)      # hold SHIFT to run
+
+
+# Teaches the game that one key means one thing.
+func make_a_key(what_it_does, which_key):
+	if InputMap.has_action(what_it_does):
+		return
+	InputMap.add_action(what_it_does)
+	var key := InputEventKey.new()
+	key.keycode = which_key
+	InputMap.action_add_event(what_it_does, key)
 
 
 func _physics_process(delta):
@@ -154,7 +169,8 @@ func jump():
 			shoot_a_fireball()
 		elif time_since_on_floor < COYOTE_TIME:
 			# Standing on the floor, or only just stepped off it. Jump!
-			velocity.y = JUMP_STRENGTH
+			# The faster you were already going, the higher you go.
+			velocity.y = JUMP_STRENGTH - absf(velocity.x) * RUNNING_JUMP_BOOST
 			# Use up the coyote time so you can't jump twice.
 			time_since_on_floor = COYOTE_TIME
 			$JumpSound.play()
@@ -182,12 +198,15 @@ func run(delta):
 	# Left arrow gives -1, right arrow gives 1, nothing gives 0.
 	var direction = Input.get_axis("ui_left", "ui_right")
 
+	# Holding SHIFT? Then full speed is a lot more.
+	var full_speed = RUN_SPEED if Input.is_action_pressed("run") else SPEED
+
 	if direction == 0:
 		# Nothing held: slide to a stop.
 		velocity.x = move_toward(velocity.x, 0.0, SLOWING_DOWN * delta)
 	else:
 		# Build up to full speed instead of snapping to it.
-		velocity.x = move_toward(velocity.x, direction * SPEED, SPEEDING_UP * delta)
+		velocity.x = move_toward(velocity.x, direction * full_speed, SPEEDING_UP * delta)
 		facing = 1 if direction > 0 else -1
 
 
@@ -265,18 +284,33 @@ func drink_the_coffee():
 	$PowerUpSound.play()
 
 
+# A fish gives you one more life.
+func eat_a_fish():
+	$PowerUpSound.play()
+	got_a_life.emit()
+	shout.emit("1-UP!")
+
+
+# A pipe sends you somewhere else.
+func go_down_a_pipe(spot):
+	global_position = spot
+	velocity = Vector2.ZERO
+	$PipeSound.play()
+
+
 # Called when a baddie gets you, or you fall off the world.
-func ouch():
+# "no_mercy" is for running out of time — that one always gets you.
+func ouch(no_mercy = false):
 	if has_finished:
 		return
 
 	# Just been hit? Nothing can touch you for a moment.
-	if clock < safe_until:
+	if clock < safe_until and not no_mercy:
 		return
 
 	# With fire powers you only LOSE the powers — you don't go back
 	# to the checkpoint. Same as Mario losing his fire flower.
-	if has_fire and not has_axe:
+	if has_fire and not has_axe and not no_mercy:
 		has_fire = false
 		safe_until = clock + SAFE_TIME_AFTER_A_HIT
 		$HurtSound.play()
@@ -287,9 +321,19 @@ func ouch():
 	if has_axe:
 		safe_until = clock + SAFE_TIME_AFTER_A_HIT
 
+	# A real death. You lose a life and go back to the checkpoint.
 	$HurtSound.play()
+	has_fire = false
 	global_position = start_position
 	velocity = Vector2.ZERO
+	safe_until = clock + SAFE_TIME_AFTER_A_HIT
+	died.emit()
+
+
+# Called when the game is over, so the cat stops listening to
+# the keyboard while the sign is up.
+func freeze():
+	has_finished = true
 
 
 # The sandwich calls this. Level over — you did it!
