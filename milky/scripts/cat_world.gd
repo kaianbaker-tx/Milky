@@ -1,20 +1,22 @@
 extends Node2D
 
 # ============================================================
-#    YOUR LEVELS
+#   YOUR LEVELS
 #
-#    Every letter below is one square of the world.
-#    Change the letters, press play, and your level changes.
+#   Every letter below is one square of the world.
+#   Change the letters, press play, and your level changes.
 #
-#       .  sky (nothing)             C    a coin
-#       G  grass ground             M    a mushroom baddie
-#       D  dirt                     T    a tree
-#       B  a wooden box             b    a bush
-#       ?  a question box         S    where the cat starts
-#       F  a checkpoint flag         W    the sandwich (finish!)
+#      .  sky (nothing)        C  a coin
+#      G  grass ground         M  a mushroom baddie
+#      D  dirt                 T  a tree
+#      B  a wooden box         b  a bush
+#      ?  a question box       S  where the cat starts
+#      F  a checkpoint flag    W  the sandwich (finish!)
+#      P  a cup of coffee (fire powers!)
+#      H  a dog house          X  the dog boss        A  the axe
 #
-#    Rows have to stay in order, but they can be any length.
-#    Try digging a pit, or building a tower of B's.
+#   Rows have to stay in order, but they can be any length.
+#   Try digging a pit, or building a tower of B's.
 # ============================================================
 
 const LEVEL_ONE = [
@@ -46,14 +48,41 @@ const LEVEL_TWO = [
 	"......................B?B...........GGGGGGG...............BB.......................GGG........................",
 	"..........CCC......................GDDDDDDDG......................B?B.........CCC..DDD........................",
 	"................BB....CCC.........GDDDDDDDDDG...BB.....BB...............BB....GGG......................W......",
-	"...S...b..P..M......F......M..M..GDDDDDDDDDDDG.......F......P....M..M.........DDD............M..M.T..GGGGGG.b.",
+	"...S...b..P..M......F......M..M..GDDDDDDDDDDDG.......F......P....M..M.........DDD............M..M.T..GGGGGG.H.",
 	"GGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGG....GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
 	"DDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDD....DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 ]
 
+# The last level: inside the dog house, with the dog and the axe.
+const LEVEL_THREE = [
+	"..............................................",
+	"..............................................",
+	"..............................................",
+	"..............................................",
+	"..............................................",
+	"..............................................",
+	"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+	"B............................................B",
+	"B...........CCC................CCC...........B",
+	"B...........BBB......BBBB......BBB...........B",
+	"B.........................................A..B",
+	"B..S..P..B..............X.............B..BBB.B",
+	"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+	"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+]
+
+
 # Every level in the game, in the order you play them.
 # Copy a whole level, paste it on the end, and you have a level 3.
-const ALL_LEVELS = [LEVEL_ONE, LEVEL_TWO]
+const ALL_LEVELS = [LEVEL_ONE, LEVEL_TWO, LEVEL_THREE]
+
+# The colour behind each level. The last one is dark, because
+# you're inside the dog house.
+const LEVEL_SKIES = [
+	Color(0.83, 0.91, 0.95),
+	Color(0.74, 0.88, 0.94),
+	Color(0.16, 0.12, 0.15),
+]
 
 
 # Which level we're on right now. 0 means the first one.
@@ -74,6 +103,10 @@ const WOODEN_BOX = 6
 const QUESTION_BOX = 10
 const TREE = 126
 const BUSH = 124
+
+# The dog house is far too big for one square, so it gets its own
+# picture file instead of coming out of the tile sheet.
+var doghouse_picture = preload("res://assets/sprites/doghouse.png")
 
 # Ground is trickier. A block on its own wants a dark line all the
 # way round it, but a block in the middle of a long floor does not.
@@ -103,10 +136,13 @@ var mushroom_scene = preload("res://scenes/mushroom.tscn")
 var checkpoint_scene = preload("res://scenes/checkpoint.tscn")
 var sandwich_scene = preload("res://scenes/sandwich.tscn")
 var coffee_scene = preload("res://scenes/coffee.tscn")
+var dog_scene = preload("res://scenes/dog.tscn")
+var axe_scene = preload("res://scenes/axe.tscn")
 
 
 func _ready():
 	level = ALL_LEVELS[level_number]
+	RenderingServer.set_default_clear_color(LEVEL_SKIES[level_number])
 
 	draw_all_the_tiles()
 	build_the_invisible_walls()
@@ -116,6 +152,7 @@ func _ready():
 	# Keep the score board up to date.
 	$Cat.coins_changed.connect(show_coins)
 	$Cat.finished.connect(show_level_done)
+	$Cat.shout.connect(show_a_message)
 	show_coins(0)
 
 
@@ -161,6 +198,17 @@ func draw_tile(x, y, picture_number):
 	$Tiles.add_child(sprite)
 
 
+# Some things are too big to fit in one square, like the dog house.
+# We hang the whole picture up so its feet rest on the bottom of
+# the square it was written in.
+func draw_big_picture(picture, x, y):
+	var sprite = Sprite2D.new()
+	sprite.texture = picture
+	sprite.position = middle_of(x, y)
+	sprite.position.y += TILE / 2.0 - picture.get_height() / 2.0
+	$Tiles.add_child(sprite)
+
+
 # Looks at the squares around this one and picks the ground picture
 # that fits. This is what gives your level a neat dark edge instead
 # of making it look like a pile of loose bricks.
@@ -201,6 +249,8 @@ func draw_all_the_tiles():
 				draw_tile(x, y, TREE)
 			elif letter == "b":
 				draw_tile(x, y, BUSH)
+			elif letter == "H":
+				draw_big_picture(doghouse_picture, x, y)
 
 
 # ---- Bumping into things ----
@@ -255,6 +305,10 @@ func place_all_the_things():
 				add_thing(sandwich_scene, x, y)
 			elif letter == "P":
 				add_thing(coffee_scene, x, y)
+			elif letter == "X":
+				add_thing(dog_scene, x, y)
+			elif letter == "A":
+				add_thing(axe_scene, x, y)
 			elif letter == "S":
 				$Cat.position = middle_of(x, y)
 				$Cat.start_position = $Cat.position
@@ -286,6 +340,14 @@ func set_up_the_camera():
 
 # ---- The score board ----
 
+# Puts a message on the screen for a few seconds, then clears it.
+func show_a_message(words):
+	$HUD/MessageLabel.text = words
+	await get_tree().create_timer(3.0).timeout
+	if $HUD/MessageLabel.text == words:
+		$HUD/MessageLabel.text = ""
+
+
 func show_coins(total):
 	$HUD/CoinLabel.text = "Level %d       Coins: %d" % [level_number + 1, total]
 
@@ -295,7 +357,7 @@ func show_level_done():
 	var last_level = ALL_LEVELS.size() - 1
 
 	if level_number >= last_level:
-		$HUD/MessageLabel.text = "YOU FINISHED\nTHE WHOLE GAME!"
+		$HUD/MessageLabel.text = "YOU BEAT THE DOGGIE!"
 		return
 
 	$HUD/MessageLabel.text = "LEVEL %d DONE!" % (level_number + 1)

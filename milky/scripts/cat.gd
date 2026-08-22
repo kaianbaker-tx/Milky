@@ -49,6 +49,7 @@ const SAFE_TIME_AFTER_A_HIT = 1.5
 # ---- Things the cat remembers while the game runs ----
 
 signal coins_changed(total)      # shouts the new number to the score board
+signal shout(words)              # asks for a message on screen
 signal finished                  # shouts once, when you eat the sandwich
 
 var coins := 0
@@ -57,6 +58,7 @@ var start_position := Vector2.ZERO
 var time_since_on_floor := 0.0
 var walk_timer := 0.0
 var has_finished := false
+var has_axe := false           # true once you pick up the axe
 var has_fire := false          # true after you drink the coffee
 var last_jump_press := -99.0   # used to spot a double tap
 var clock := 0.0               # counts up forever, so we can time things
@@ -86,6 +88,9 @@ var fireball_scene = preload("res://scenes/fireball.tscn")
 
 
 func _ready():
+	# Joining a group is how the dog finds the cat later on.
+	add_to_group("cat")
+
 	# Remember the starting spot.
 	start_position = global_position
 
@@ -167,6 +172,7 @@ func shoot_a_fireball():
 	var ball = fireball_scene.instantiate()
 	ball.position = position + Vector2(11 * facing, -1)
 	ball.direction = facing
+	ball.is_axe = has_axe
 	get_parent().add_child.call_deferred(ball)
 	$FireballSound.play()
 
@@ -231,6 +237,15 @@ func touch_checkpoint(where):
 	$CheckpointSound.play()
 
 
+# The axe calls this. Now your double tap throws AXES, which are
+# the only thing the dog is frightened of.
+func grab_the_axe():
+	has_axe = true
+	has_fire = true          # so you can throw even without coffee
+	$PowerUpSound.play()
+	shout.emit("GOT THE AXE!\nTAP SPACE TWICE!")
+
+
 # The cup of coffee calls this. Fire powers!
 func drink_the_coffee():
 	has_fire = true
@@ -248,11 +263,16 @@ func ouch():
 
 	# With fire powers you only LOSE the powers — you don't go back
 	# to the checkpoint. Same as Mario losing his fire flower.
-	if has_fire:
+	if has_fire and not has_axe:
 		has_fire = false
 		safe_until = clock + SAFE_TIME_AFTER_A_HIT
 		$HurtSound.play()
 		return
+
+	# Holding the axe? You keep it, but you still get knocked back
+	# to the checkpoint if the dog gets you.
+	if has_axe:
+		safe_until = clock + SAFE_TIME_AFTER_A_HIT
 
 	$HurtSound.play()
 	global_position = start_position

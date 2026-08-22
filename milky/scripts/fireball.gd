@@ -12,6 +12,12 @@ const SPIN_SPEED = 14.0
 # 1 = flying right, -1 = flying left. The cat sets this when it shoots.
 var direction := 1
 
+# Once you've picked up the axe you throw axes instead of fireballs.
+# The cat sets this too, just before it lets go.
+var is_axe := false
+
+var axe_picture = preload("res://assets/sprites/axe.png")
+
 var age := 0.0
 
 
@@ -20,6 +26,9 @@ func _ready():
 	# are already flying about.
 	add_to_group("fireballs")
 	$Hitbox.body_entered.connect(_hit_something)
+
+	if is_axe:
+		$Sprite.texture = axe_picture
 
 
 func _physics_process(delta):
@@ -45,6 +54,12 @@ func _physics_process(delta):
 
 
 func _hit_something(who):
+	# Only a thrown axe can hurt the dog.
+	if is_axe and who.has_method("hit_by_axe"):
+		who.hit_by_axe()
+		queue_free()
+		return
+
 	if who.has_method("hit_by_fireball"):
 		who.hit_by_fireball()
 		queue_free()
