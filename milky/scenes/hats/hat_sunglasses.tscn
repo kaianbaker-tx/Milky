@@ -4,28 +4,28 @@
 
 [node name="LensLeft" type="Polygon2D" parent="."]
 color = Color(0.1, 0.11, 0.15, 1)
-polygon = PackedVector2Array(-23, -9, -5, -9, -5, 3, -9, 6, -19, 6, -23, 2)
+polygon = PackedVector2Array(-23, -7, -5, -7, -5, 5, -9, 8, -19, 8, -23, 4)
 
 [node name="LensRight" type="Polygon2D" parent="."]
 color = Color(0.1, 0.11, 0.15, 1)
-polygon = PackedVector2Array(5, -9, 23, -9, 23, 2, 19, 6, 9, 6, 5, 3)
+polygon = PackedVector2Array(5, -7, 23, -7, 23, 4, 19, 8, 9, 8, 5, 5)
 
 [node name="Bridge" type="Polygon2D" parent="."]
 color = Color(0.1, 0.11, 0.15, 1)
-polygon = PackedVector2Array(-5, -8, 5, -8, 5, -4, -5, -4)
+polygon = PackedVector2Array(-5, -6, 5, -6, 5, -2, -5, -2)
 
 [node name="ArmLeft" type="Polygon2D" parent="."]
 color = Color(0.1, 0.11, 0.15, 1)
-polygon = PackedVector2Array(-23, -8, -27, -6, -27, -3, -23, -4)
+polygon = PackedVector2Array(-23, -6, -28, -4, -28, -1, -23, -2)
 
 [node name="ArmRight" type="Polygon2D" parent="."]
 color = Color(0.1, 0.11, 0.15, 1)
-polygon = PackedVector2Array(23, -8, 27, -6, 27, -3, 23, -4)
+polygon = PackedVector2Array(23, -6, 28, -4, 28, -1, 23, -2)
 
 [node name="ShineLeft" type="Polygon2D" parent="."]
 color = Color(0.42, 0.48, 0.6, 1)
-polygon = PackedVector2Array(-20, -7, -14, -7, -18, 1, -21, 1)
+polygon = PackedVector2Array(-20, -5, -14, -5, -18, 3, -21, 3)
 
 [node name="ShineRight" type="Polygon2D" parent="."]
 color = Color(0.42, 0.48, 0.6, 1)
-polygon = PackedVector2Array(8, -7, 14, -7, 10, 1, 7, 1)
+polygon = PackedVector2Array(8, -5, 14, -5, 10, 3, 7, 3)

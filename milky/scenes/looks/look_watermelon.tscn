@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/sprites/googly-eye.png" id="1_eye"]
 [ext_resource type="Script" path="res://scripts/look.gd" id="2_look"]
-[ext_resource type="PackedScene" path="res://scenes/hats/hat_sunglasses.tscn" id="3_hat"]
 
 [node name="LookWatermelon" type="Node2D"]
 script = ExtResource("2_look")
@@ -80,4 +79,9 @@ position = Vector2(12, -2)
 scale = Vector2(0.055, 0.055)
 texture = ExtResource("1_eye")
 
-[node name="Hat" parent="." instance=ExtResource("3_hat")]
+
+[node name="HeadMount" type="Node2D" parent="."]
+position = Vector2(0, -42)
+
+[node name="FaceMount" type="Node2D" parent="."]
+position = Vector2(0, -2)

@@ -1,15 +1,24 @@
 extends CanvasLayer
 
 # The FOOD LOCKER menu.
-# Press L to open it, click a friend to become them.
+# Press L to open it. Two tabs:
+#   FOODS — pick who you want to be
+#   HATS  — pick what you want to wear
+# They're separate, so you can put ANY hat on ANY character.
 
 @onready var panel: PanelContainer = $Panel
 @onready var list: VBoxContainer = $Panel/Margin/Rows/List
+@onready var foods_button: Button = $Panel/Margin/Rows/Tabs/FoodsTab
+@onready var hats_button: Button = $Panel/Margin/Rows/Tabs/HatsTab
+
+# Which tab you're looking at: "foods" or "hats".
+var tab := "foods"
 
 
 func _ready():
 	panel.hide()
-	# Rebuild the buttons whenever you find someone new.
+	foods_button.pressed.connect(show_tab.bind("foods"))
+	hats_button.pressed.connect(show_tab.bind("hats"))
 	Locker.locker_changed.connect(rebuild)
 	rebuild()
 
@@ -34,25 +43,48 @@ func close():
 	get_tree().paused = false
 
 
-# Makes one button for every friend you've unlocked.
+func show_tab(which: String):
+	tab = which
+	rebuild()
+
+
+# Fills the panel with buttons for whichever tab you're on.
 func rebuild():
+	# Mark whichever tab you're looking at with an arrow.
+	# (Greying it out looked broken, so we use a marker instead.)
+	foods_button.text = "▶ FOODS" if tab == "foods" else "FOODS"
+	hats_button.text = "▶ HATS" if tab == "hats" else "HATS"
+
 	for old in list.get_children():
 		list.remove_child(old)
 		old.queue_free()
 
-	for who in Locker.unlocked:
-		var button := Button.new()
-		if who == Locker.current:
-			button.text = "★  " + who + "  (this is you)"
-		else:
-			button.text = who
-		button.custom_minimum_size = Vector2(280, 46)
-		# .bind(who) means "when this button is pressed,
-		# call _on_pick and hand it this friend's name".
-		button.pressed.connect(_on_pick.bind(who))
-		list.add_child(button)
+	if tab == "foods":
+		for who in Locker.unlocked:
+			_add_button(who, who == Locker.current, _on_pick_food)
+	else:
+		for hat in Locker.unlocked_hats:
+			_add_button(hat, hat == Locker.current_hat, _on_pick_hat)
 
 
-func _on_pick(who: String):
+func _add_button(label: String, is_current: bool, handler: Callable):
+	var button := Button.new()
+	if is_current:
+		button.text = "★  " + label
+	else:
+		button.text = label
+	button.custom_minimum_size = Vector2(290, 42)
+	# .bind(label) means "when pressed, call handler and hand it this name".
+	button.pressed.connect(handler.bind(label))
+	list.add_child(button)
+
+
+func _on_pick_food(who: String):
 	Locker.become(who)
-	close()
+	# Stay open so you can pick a hat next.
+	rebuild()
+
+
+func _on_pick_hat(hat: String):
+	Locker.wear(hat)
+	rebuild()

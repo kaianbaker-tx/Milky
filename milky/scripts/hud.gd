@@ -27,4 +27,4 @@ func friend_found(name_of_friend):
 
 
 func update_text():
-	text = "Friends found: %d / %d     [L] Food Locker" % [found, total]
+	text = "Friends found: %d / %d     [L] Food Locker     [R] Redo" % [found, total]

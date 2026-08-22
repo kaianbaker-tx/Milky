@@ -67,3 +67,9 @@ texture = ExtResource("1_eye")
 position = Vector2(13, -8)
 scale = Vector2(0.07, 0.07)
 texture = ExtResource("1_eye")
+
+[node name="HeadMount" type="Node2D" parent="."]
+position = Vector2(0, -48)
+
+[node name="FaceMount" type="Node2D" parent="."]
+position = Vector2(0, -8)

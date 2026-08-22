@@ -57,8 +57,13 @@ the next one.
 - [x] 10. Hats! Watermelon has sunglasses, Macaroon has the SWEET TREAT cap,
       Ice Cream has a cone hat, Popsicle has a stick hat. Each hat is its own
       scene in `scenes/hats/` so a friend can swap hats later.
-- [ ] 10b. Hats for the friends not built yet — strawberry (leaf hat),
+- [x] 10b. Hats are their OWN thing now — the locker has FOODS and HATS tabs,
+      and any hat goes on any character (Milky in sunglasses!). Each look has
+      a HeadMount and a FaceMount so hats land in the right spot.
+- [ ] 10c. Hats for the friends not built yet — strawberry (leaf hat),
       blueberry (backwards blue cap), coconut (coconut + straw)
+- [x] 10d. **Redo button** — press R to go back to the start. You keep every
+      friend and hat. If you fall off the world it catches you automatically.
 - [ ] 11. Level 2 + the level-select screen with the lock
 
 ## How to add a new friend (it's 3 steps now)
