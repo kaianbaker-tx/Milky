@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/milky.tscn" id="1_milky"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="2_hud"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://scenes/friend_popup.tscn" id="4_popup"]
 [ext_resource type="PackedScene" path="res://scenes/star.tscn" id="5_star"]
 [ext_resource type="PackedScene" path="res://scenes/level_complete.tscn" id="6_complete"]
+[ext_resource type="PackedScene" path="res://scenes/friend_strawberry.tscn" id="7_strawberry"]
 
 [sub_resource type="RectangleShape2D" id="Rect_shelf"]
 size = Vector2(3000, 40)
@@ -249,6 +250,9 @@ color = Color(0.99, 0.92, 0.66, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ButterTub"]
 shape = SubResource("Rect_tub")
+
+[node name="Strawberry" parent="." instance=ExtResource("7_strawberry")]
+position = Vector2(1300, 210)
 
 [node name="Star" parent="." instance=ExtResource("5_star")]
 position = Vector2(2560, 450)

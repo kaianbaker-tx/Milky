@@ -20,6 +20,7 @@ const LOOKS := {
 	"Macaroon": "res://scenes/looks/look_macaroon.tscn",
 	"Ice Cream": "res://scenes/looks/look_icecream.tscn",
 	"Popsicle": "res://scenes/looks/look_popsicle.tscn",
+	"Strawberry": "res://scenes/looks/look_strawberry.tscn",
 }
 
 # ---- HATS ----
@@ -31,6 +32,7 @@ const HATS := {
 	"Sweet Treat Cap": {"scene": "res://scenes/hats/hat_sweet_treat.tscn", "mount": "Head"},
 	"Cone Hat": {"scene": "res://scenes/hats/hat_cone.tscn", "mount": "Head"},
 	"Stick Hat": {"scene": "res://scenes/hats/hat_popsicle_stick.tscn", "mount": "Head"},
+	"Leaf Hat": {"scene": "res://scenes/hats/hat_leaf.tscn", "mount": "Head"},
 }
 
 # Finding a friend also earns you their hat.
@@ -39,6 +41,7 @@ const HAT_FROM_FRIEND := {
 	"Macaroon": "Sweet Treat Cap",
 	"Ice Cream": "Cone Hat",
 	"Popsicle": "Stick Hat",
+	"Strawberry": "Leaf Hat",
 }
 
 # Who you've unlocked. You always start with Milky.

@@ -73,7 +73,10 @@ the next one.
 - [x] 12. **Level 2 exists** — the fridge door. Yogurt cup, ketchup, pickle
       jar, milk jug, mustard, orange juice, butter tub. Has its own star, but
       nothing after it yet, so its button says MORE COMING SOON.
-- [ ] 13. Friends to find in Level 2 (it's empty of friends right now)
+- [x] 12b. **Strawberry** built and hiding on the milk jug in Level 2.
+      Nickname BERRY. Comes with the **Leaf Hat**.
+- [x] 12c. SWEET TREAT hat redone as a proper **backwards baseball cap**.
+- [ ] 13. More friends for Level 2 — blueberry, coconut, grape, mac & cheese
 - [ ] 14. The level-select screen with the lock on Level 2
 
 ## How to add a new friend (it's 3 steps now)
