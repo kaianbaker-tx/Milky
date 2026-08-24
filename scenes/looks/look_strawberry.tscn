@@ -1,0 +1,92 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/googly-eye.png" id="1_eye"]
+[ext_resource type="Script" path="res://scripts/look.gd" id="2_look"]
+
+[node name="LookStrawberry" type="Node2D"]
+script = ExtResource("2_look")
+
+[node name="FootLeft" type="Polygon2D" parent="."]
+position = Vector2(-13, 42)
+color = Color(0.22, 0.25, 0.32, 1)
+polygon = PackedVector2Array(11, 0, 7.8, 4.2, 0, 6, -7.8, 4.2, -11, 0, -7.8, -4.2, 0, -6, 7.8, -4.2)
+
+[node name="FootRight" type="Polygon2D" parent="."]
+position = Vector2(13, 42)
+color = Color(0.22, 0.25, 0.32, 1)
+polygon = PackedVector2Array(11, 0, 7.8, 4.2, 0, 6, -7.8, 4.2, -11, 0, -7.8, -4.2, 0, -6, 7.8, -4.2)
+
+[node name="Body" type="Polygon2D" parent="."]
+color = Color(0.89, 0.19, 0.28, 1)
+polygon = PackedVector2Array(-34, -16, -28, -26, -12, -30, 12, -30, 28, -26, 34, -16, 30, 4, 16, 26, 0, 36, -16, 26, -30, 4)
+
+[node name="BodyShade" type="Polygon2D" parent="."]
+color = Color(0.76, 0.13, 0.22, 1)
+polygon = PackedVector2Array(18, -28, 28, -26, 34, -16, 30, 4, 16, 26, 0, 36, 8, 20, 18, 2)
+
+[node name="BodyShine" type="Polygon2D" parent="."]
+color = Color(0.97, 0.42, 0.46, 1)
+polygon = PackedVector2Array(-26, -22, -16, -26, -20, -6, -28, -2)
+
+[node name="Seed1" type="Polygon2D" parent="."]
+position = Vector2(-20, -8)
+color = Color(0.99, 0.86, 0.36, 1)
+polygon = PackedVector2Array(0, -3, 1.8, 0, 0, 3, -1.8, 0)
+
+[node name="Seed2" type="Polygon2D" parent="."]
+position = Vector2(21, -10)
+color = Color(0.99, 0.86, 0.36, 1)
+polygon = PackedVector2Array(0, -3, 1.8, 0, 0, 3, -1.8, 0)
+
+[node name="Seed3" type="Polygon2D" parent="."]
+position = Vector2(-9, 14)
+color = Color(0.99, 0.86, 0.36, 1)
+polygon = PackedVector2Array(0, -3, 1.8, 0, 0, 3, -1.8, 0)
+
+[node name="Seed4" type="Polygon2D" parent="."]
+position = Vector2(12, 12)
+color = Color(0.99, 0.86, 0.36, 1)
+polygon = PackedVector2Array(0, -3, 1.8, 0, 0, 3, -1.8, 0)
+
+[node name="Seed5" type="Polygon2D" parent="."]
+position = Vector2(0, 24)
+color = Color(0.99, 0.86, 0.36, 1)
+polygon = PackedVector2Array(0, -3, 1.8, 0, 0, 3, -1.8, 0)
+
+[node name="Calyx" type="Polygon2D" parent="."]
+color = Color(0.29, 0.65, 0.3, 1)
+polygon = PackedVector2Array(-24, -26, -14, -38, -7, -28, 0, -42, 7, -28, 14, -38, 24, -26, 10, -22, 0, -24, -10, -22)
+
+[node name="Stem" type="Polygon2D" parent="."]
+color = Color(0.36, 0.55, 0.24, 1)
+polygon = PackedVector2Array(-3, -42, 3, -42, 3, -34, -3, -34)
+
+[node name="HandLeft" type="Polygon2D" parent="."]
+position = Vector2(-40, 2)
+color = Color(0.98, 0.96, 0.92, 1)
+polygon = PackedVector2Array(7, 0, 4.9, 4.9, 0, 7, -4.9, 4.9, -7, 0, -4.9, -4.9, 0, -7, 4.9, -4.9)
+
+[node name="HandRight" type="Polygon2D" parent="."]
+position = Vector2(40, 2)
+color = Color(0.98, 0.96, 0.92, 1)
+polygon = PackedVector2Array(7, 0, 4.9, 4.9, 0, 7, -4.9, 4.9, -7, 0, -4.9, -4.9, 0, -7, 4.9, -4.9)
+
+[node name="Mouth" type="Polygon2D" parent="."]
+color = Color(0.5, 0.09, 0.16, 1)
+polygon = PackedVector2Array(-8, 4, -5, 8.5, 0, 10, 5, 8.5, 8, 4, 8, 7, 5, 12.5, 0, 14, -5, 12.5, -8, 7)
+
+[node name="EyeLeft" type="Sprite2D" parent="."]
+position = Vector2(-12, -8)
+scale = Vector2(0.055, 0.055)
+texture = ExtResource("1_eye")
+
+[node name="EyeRight" type="Sprite2D" parent="."]
+position = Vector2(12, -8)
+scale = Vector2(0.055, 0.055)
+texture = ExtResource("1_eye")
+
+[node name="HeadMount" type="Node2D" parent="."]
+position = Vector2(0, -40)
+
+[node name="FaceMount" type="Node2D" parent="."]
+position = Vector2(0, -8)

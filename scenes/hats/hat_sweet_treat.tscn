@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[node name="HatSweetTreat" type="Node2D"]
+
+[node name="Brim" type="Polygon2D" parent="."]
+color = Color(0.68, 0.22, 0.36, 1)
+polygon = PackedVector2Array(-26, -12, -46, -10, -53, -4, -50, 0, -26, -1)
+
+[node name="BrimEdge" type="Polygon2D" parent="."]
+color = Color(0.54, 0.16, 0.28, 1)
+polygon = PackedVector2Array(-50, 0, -53, -4, -50, -5, -26, -5, -26, -1)
+
+[node name="Crown" type="Polygon2D" parent="."]
+color = Color(0.91, 0.42, 0.57, 1)
+polygon = PackedVector2Array(-30, -4, -29, -16, -22, -25, -10, -30, 10, -30, 22, -25, 29, -16, 30, -4)
+
+[node name="CrownShade" type="Polygon2D" parent="."]
+color = Color(0.79, 0.32, 0.47, 1)
+polygon = PackedVector2Array(18, -27, 22, -25, 29, -16, 30, -4, 18, -4)
+
+[node name="CrownSeam" type="Polygon2D" parent="."]
+color = Color(0.79, 0.32, 0.47, 1)
+polygon = PackedVector2Array(-1, -30, 1, -30, 1, -4, -1, -4)
+
+[node name="Strap" type="Polygon2D" parent="."]
+color = Color(0.98, 0.96, 0.92, 1)
+polygon = PackedVector2Array(-30, -4, 30, -4, 30, 2, -30, 2)
+
+[node name="SnapLeft" type="Polygon2D" parent="."]
+color = Color(0.68, 0.22, 0.36, 1)
+polygon = PackedVector2Array(-14, -2, -10, -2, -10, 1, -14, 1)
+
+[node name="SnapRight" type="Polygon2D" parent="."]
+color = Color(0.68, 0.22, 0.36, 1)
+polygon = PackedVector2Array(10, -2, 14, -2, 14, 1, 10, 1)
+
+[node name="Text" type="Label" parent="."]
+offset_left = -28.0
+offset_top = -27.0
+offset_right = 28.0
+offset_bottom = -4.0
+theme_override_colors/font_color = Color(1, 0.97, 0.93, 1)
+theme_override_font_sizes/font_size = 8
+text = "SWEET
+TREAT"
+horizontal_alignment = 1
+vertical_alignment = 1

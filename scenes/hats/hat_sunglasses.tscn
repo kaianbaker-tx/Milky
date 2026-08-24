@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[node name="HatSunglasses" type="Node2D"]
+
+[node name="LensLeft" type="Polygon2D" parent="."]
+color = Color(0.1, 0.11, 0.15, 1)
+polygon = PackedVector2Array(-23, -7, -5, -7, -5, 5, -9, 8, -19, 8, -23, 4)
+
+[node name="LensRight" type="Polygon2D" parent="."]
+color = Color(0.1, 0.11, 0.15, 1)
+polygon = PackedVector2Array(5, -7, 23, -7, 23, 4, 19, 8, 9, 8, 5, 5)
+
+[node name="Bridge" type="Polygon2D" parent="."]
+color = Color(0.1, 0.11, 0.15, 1)
+polygon = PackedVector2Array(-5, -6, 5, -6, 5, -2, -5, -2)
+
+[node name="ArmLeft" type="Polygon2D" parent="."]
+color = Color(0.1, 0.11, 0.15, 1)
+polygon = PackedVector2Array(-23, -6, -28, -4, -28, -1, -23, -2)
+
+[node name="ArmRight" type="Polygon2D" parent="."]
+color = Color(0.1, 0.11, 0.15, 1)
+polygon = PackedVector2Array(23, -6, 28, -4, 28, -1, 23, -2)
+
+[node name="ShineLeft" type="Polygon2D" parent="."]
+color = Color(0.42, 0.48, 0.6, 1)
+polygon = PackedVector2Array(-20, -5, -14, -5, -18, 3, -21, 3)
+
+[node name="ShineRight" type="Polygon2D" parent="."]
+color = Color(0.42, 0.48, 0.6, 1)
+polygon = PackedVector2Array(8, -5, 14, -5, 10, 3, 7, 3)

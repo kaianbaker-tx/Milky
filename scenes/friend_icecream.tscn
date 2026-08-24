@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/friend.gd" id="1_friend"]
+[ext_resource type="PackedScene" path="res://scenes/looks/look_icecream.tscn" id="2_look"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 28.0
+
+[node name="IceCream" type="Area2D" groups=["friend"]]
+script = ExtResource("1_friend")
+friend_name = "Ice Cream"
+short_name = "CREAM"
+
+[node name="Look" parent="." instance=ExtResource("2_look")]
+scale = Vector2(0.6, 0.6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_body")

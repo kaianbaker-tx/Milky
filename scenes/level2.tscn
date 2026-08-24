@@ -1,0 +1,292 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/milky.tscn" id="1_milky"]
+[ext_resource type="PackedScene" path="res://scenes/party_camera.tscn" id="99_camera"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="2_hud"]
+[ext_resource type="PackedScene" path="res://scenes/food_locker.tscn" id="3_locker"]
+[ext_resource type="PackedScene" path="res://scenes/friend_popup.tscn" id="4_popup"]
+[ext_resource type="PackedScene" path="res://scenes/star.tscn" id="5_star"]
+[ext_resource type="PackedScene" path="res://scenes/level_complete.tscn" id="6_complete"]
+[ext_resource type="PackedScene" path="res://scenes/friend_strawberry.tscn" id="7_strawberry"]
+[ext_resource type="PackedScene" path="res://scenes/friend_cheese.tscn" id="8_cheese"]
+
+[sub_resource type="RectangleShape2D" id="Rect_shelf"]
+size = Vector2(3000, 40)
+
+[sub_resource type="RectangleShape2D" id="Rect_yogurt"]
+size = Vector2(96, 60)
+
+[sub_resource type="RectangleShape2D" id="Rect_ketchup"]
+size = Vector2(72, 140)
+
+[sub_resource type="RectangleShape2D" id="Rect_pickle"]
+size = Vector2(100, 120)
+
+[sub_resource type="RectangleShape2D" id="Rect_milk"]
+size = Vector2(120, 160)
+
+[sub_resource type="RectangleShape2D" id="Rect_tub"]
+size = Vector2(170, 60)
+
+[node name="Level2" type="Node2D"]
+
+[node name="Shelf" type="StaticBody2D" parent="."]
+position = Vector2(1400, 520)
+
+[node name="Visual" type="ColorRect" parent="Shelf"]
+offset_left = -1500.0
+offset_top = -20.0
+offset_right = 1500.0
+offset_bottom = 20.0
+color = Color(0.7, 0.78, 0.83, 1)
+
+[node name="ShelfEdge" type="ColorRect" parent="Shelf"]
+offset_left = -1500.0
+offset_top = -20.0
+offset_right = 1500.0
+offset_bottom = -13.0
+color = Color(0.84, 0.9, 0.93, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shelf"]
+shape = SubResource("Rect_shelf")
+
+[node name="YogurtCup" type="StaticBody2D" parent="."]
+position = Vector2(420, 460)
+
+[node name="Visual" type="ColorRect" parent="YogurtCup"]
+offset_left = -48.0
+offset_top = -30.0
+offset_right = 48.0
+offset_bottom = 30.0
+color = Color(0.97, 0.96, 0.94, 1)
+
+[node name="Lid" type="ColorRect" parent="YogurtCup"]
+offset_left = -52.0
+offset_top = -30.0
+offset_right = 52.0
+offset_bottom = -20.0
+color = Color(0.55, 0.35, 0.66, 1)
+
+[node name="Band" type="ColorRect" parent="YogurtCup"]
+offset_left = -48.0
+offset_top = -8.0
+offset_right = 48.0
+offset_bottom = 12.0
+color = Color(0.78, 0.55, 0.85, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YogurtCup"]
+shape = SubResource("Rect_yogurt")
+
+[node name="KetchupBottle" type="StaticBody2D" parent="."]
+position = Vector2(700, 400)
+
+[node name="Visual" type="ColorRect" parent="KetchupBottle"]
+offset_left = -36.0
+offset_top = -70.0
+offset_right = 36.0
+offset_bottom = 70.0
+color = Color(0.82, 0.16, 0.18, 1)
+
+[node name="Cap" type="ColorRect" parent="KetchupBottle"]
+offset_left = -22.0
+offset_top = -70.0
+offset_right = 22.0
+offset_bottom = -54.0
+color = Color(0.95, 0.94, 0.92, 1)
+
+[node name="Label" type="ColorRect" parent="KetchupBottle"]
+offset_left = -36.0
+offset_top = -26.0
+offset_right = 36.0
+offset_bottom = 24.0
+color = Color(0.97, 0.95, 0.9, 1)
+
+[node name="Shine" type="ColorRect" parent="KetchupBottle"]
+offset_left = -30.0
+offset_top = -48.0
+offset_right = -22.0
+offset_bottom = 58.0
+color = Color(0.93, 0.42, 0.43, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KetchupBottle"]
+shape = SubResource("Rect_ketchup")
+
+[node name="PickleJar" type="StaticBody2D" parent="."]
+position = Vector2(980, 360)
+
+[node name="Visual" type="ColorRect" parent="PickleJar"]
+offset_left = -50.0
+offset_top = -60.0
+offset_right = 50.0
+offset_bottom = 60.0
+color = Color(0.55, 0.71, 0.34, 1)
+
+[node name="Lid" type="ColorRect" parent="PickleJar"]
+offset_left = -54.0
+offset_top = -60.0
+offset_right = 54.0
+offset_bottom = -40.0
+color = Color(0.72, 0.73, 0.76, 1)
+
+[node name="Pickle1" type="ColorRect" parent="PickleJar"]
+offset_left = -34.0
+offset_top = -28.0
+offset_right = -18.0
+offset_bottom = 40.0
+color = Color(0.38, 0.55, 0.22, 1)
+
+[node name="Pickle2" type="ColorRect" parent="PickleJar"]
+offset_left = 6.0
+offset_top = -20.0
+offset_right = 22.0
+offset_bottom = 44.0
+color = Color(0.38, 0.55, 0.22, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickleJar"]
+shape = SubResource("Rect_pickle")
+
+[node name="MilkJug" type="StaticBody2D" parent="."]
+position = Vector2(1300, 320)
+
+[node name="Visual" type="ColorRect" parent="MilkJug"]
+offset_left = -60.0
+offset_top = -80.0
+offset_right = 60.0
+offset_bottom = 80.0
+color = Color(0.96, 0.97, 0.98, 1)
+
+[node name="Cap" type="ColorRect" parent="MilkJug"]
+offset_left = -26.0
+offset_top = -80.0
+offset_right = 26.0
+offset_bottom = -64.0
+color = Color(0.3, 0.55, 0.86, 1)
+
+[node name="Label" type="ColorRect" parent="MilkJug"]
+offset_left = -60.0
+offset_top = -20.0
+offset_right = 60.0
+offset_bottom = 30.0
+color = Color(0.62, 0.82, 0.95, 1)
+
+[node name="Shade" type="ColorRect" parent="MilkJug"]
+offset_left = 44.0
+offset_top = -80.0
+offset_right = 60.0
+offset_bottom = 80.0
+color = Color(0.85, 0.88, 0.92, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MilkJug"]
+shape = SubResource("Rect_milk")
+
+[node name="MustardBottle" type="StaticBody2D" parent="."]
+position = Vector2(1620, 300)
+
+[node name="Visual" type="ColorRect" parent="MustardBottle"]
+offset_left = -36.0
+offset_top = -70.0
+offset_right = 36.0
+offset_bottom = 70.0
+color = Color(0.95, 0.78, 0.16, 1)
+
+[node name="Cap" type="ColorRect" parent="MustardBottle"]
+offset_left = -22.0
+offset_top = -70.0
+offset_right = 22.0
+offset_bottom = -54.0
+color = Color(0.95, 0.94, 0.92, 1)
+
+[node name="Label" type="ColorRect" parent="MustardBottle"]
+offset_left = -36.0
+offset_top = -26.0
+offset_right = 36.0
+offset_bottom = 24.0
+color = Color(0.99, 0.96, 0.88, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MustardBottle"]
+shape = SubResource("Rect_ketchup")
+
+[node name="OrangeJuice" type="StaticBody2D" parent="."]
+position = Vector2(1930, 350)
+
+[node name="Visual" type="ColorRect" parent="OrangeJuice"]
+offset_left = -50.0
+offset_top = -60.0
+offset_right = 50.0
+offset_bottom = 60.0
+color = Color(0.95, 0.55, 0.14, 1)
+
+[node name="Top" type="ColorRect" parent="OrangeJuice"]
+offset_left = -50.0
+offset_top = -60.0
+offset_right = 50.0
+offset_bottom = -44.0
+color = Color(0.82, 0.44, 0.09, 1)
+
+[node name="Label" type="ColorRect" parent="OrangeJuice"]
+offset_left = -38.0
+offset_top = -24.0
+offset_right = 38.0
+offset_bottom = 26.0
+color = Color(0.99, 0.93, 0.78, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OrangeJuice"]
+shape = SubResource("Rect_pickle")
+
+[node name="ButterTub" type="StaticBody2D" parent="."]
+position = Vector2(2220, 440)
+
+[node name="Visual" type="ColorRect" parent="ButterTub"]
+offset_left = -85.0
+offset_top = -30.0
+offset_right = 85.0
+offset_bottom = 30.0
+color = Color(0.98, 0.84, 0.42, 1)
+
+[node name="Lid" type="ColorRect" parent="ButterTub"]
+offset_left = -90.0
+offset_top = -30.0
+offset_right = 90.0
+offset_bottom = -18.0
+color = Color(0.99, 0.92, 0.66, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ButterTub"]
+shape = SubResource("Rect_tub")
+
+[node name="Strawberry" parent="." instance=ExtResource("7_strawberry")]
+position = Vector2(1300, 210)
+
+[node name="Cheese" parent="." instance=ExtResource("8_cheese")]
+position = Vector2(1930, 260)
+
+[node name="Star" parent="." instance=ExtResource("5_star")]
+position = Vector2(2560, 450)
+
+[node name="Player1" parent="." instance=ExtResource("1_milky")]
+position = Vector2(200, 300)
+player_number = 1
+
+[node name="Player2" parent="." instance=ExtResource("1_milky")]
+position = Vector2(330, 300)
+player_number = 2
+
+[node name="PartyCamera" parent="." instance=ExtResource("99_camera")]
+position = Vector2(200, 300)
+
+[node name="FoodLocker" parent="." instance=ExtResource("3_locker")]
+
+[node name="FriendPopup" parent="." instance=ExtResource("4_popup")]
+
+[node name="LevelComplete" parent="." instance=ExtResource("6_complete")]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Counter" type="Label" parent="HUD"]
+offset_left = 24.0
+offset_top = 18.0
+offset_right = 620.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.18, 0.3, 0.42, 1)
+theme_override_font_sizes/font_size = 30
+text = "LEVEL 2"
+script = ExtResource("2_hud")
