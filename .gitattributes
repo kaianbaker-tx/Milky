@@ -35,3 +35,6 @@
 *.ttf   filter=lfs diff=lfs merge=lfs -text
 *.otf   filter=lfs diff=lfs merge=lfs -text
 *.woff2 filter=lfs diff=lfs merge=lfs -text
+
+# Pages serves LFS pointers as text, so keep the web build out of LFS.
+/docs/** -filter -diff -merge
