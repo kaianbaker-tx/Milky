@@ -7,3 +7,5 @@ what he meant. Short sentences, one idea at a time.
 - Find art with `kenney-find <word>`, copy it with `--grab`.
 - Publish with `share-game`.
 - Keep `thread_support=false` or the web page goes black.
+
+More on how to help him with this game: `HELPING_KAIAN.md`.
