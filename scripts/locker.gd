@@ -56,6 +56,10 @@ var current_hat := {1: "No Hat", 2: "No Hat"}
 # The title screen sets this before the level loads.
 var two_players := false
 
+# Which level you are playing. The title screen sets it to 1,
+# and the NEXT LEVEL button counts it up.
+var level_number := 1
+
 signal locker_changed
 
 

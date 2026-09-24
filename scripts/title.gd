@@ -3,7 +3,7 @@ extends Control
 # The screen you see when the game starts.
 # Pick one player or two, then Level 1 loads.
 
-const FIRST_LEVEL = "res://scenes/level1.tscn"
+const FIRST_LEVEL = "res://scenes/level_map.tscn"
 
 @onready var play_button: Button = $Rows/PlayButton
 @onready var multi_button: Button = $Rows/MultiButton
@@ -23,5 +23,8 @@ func start_game(two_players: bool):
 
 	# Fresh start — forget any friends found in a previous go.
 	Locker.reset()
+
+	# Always start at level 1.
+	Locker.level_number = 1
 
 	get_tree().change_scene_to_file(FIRST_LEVEL)

@@ -6,6 +6,9 @@ extends CanvasLayer
 # Leave it empty and the button says there's nothing there yet.
 @export_file("*.tscn") var next_level: String = ""
 
+# Set by the level maker: which level number comes next, 0 for none.
+var next_number := 0
+
 @onready var panel: PanelContainer = $Panel
 @onready var next_button: Button = $Panel/Margin/Rows/NextButton
 @onready var stay_button: Button = $Panel/Margin/Rows/StayButton
@@ -34,6 +37,10 @@ func show_complete():
 
 
 func _on_next():
+	# Tell the level maker which picture to build next.
+	if next_number > 0:
+		Locker.level_number = next_number
+
 	# Unpause BEFORE switching, or the new level starts frozen.
 	get_tree().paused = false
 	get_tree().change_scene_to_file(next_level)
